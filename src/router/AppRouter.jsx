@@ -3,11 +3,13 @@ import { FarmingPage } from "../farm/pages/FarmingPage"
 import { CharacterGrid } from './../farm/pages/CharacterGrid';
 import { CharacterAdder } from "../farm/pages/CharacterAdder";
 import { NavBar } from "../UI/NavBar";
-
+import { CharacterInfoPage } from "../components/CharacterInfoPage";
+import { characterData } from '../mock/characterData'  //? Temporary until API is implemented
 
 export const AppRouter = () => {
 
-  const chars = [{name: 'Burnice', attribute: 'Fire', type: 'Anomaly', smallImg: `/assets/burnice_small.jpg`, bigImg: `assets/burnice_big.webp`}] // Temporary untill API is implemented
+
+  //? const chars = Fetch( URL ).JSON
 
   return (
     <>
@@ -15,9 +17,10 @@ export const AppRouter = () => {
       <Routes>
 
         <Route path="/*" element={ <FarmingPage /> }/>
-        <Route path="/charactergrid" element={ <CharacterGrid chars={ chars }/> }></Route>
-        <Route path="/characteradder" element={ <CharacterAdder chars={ chars }/> }></Route>
-      
+        <Route path="/charactergrid" element={ <CharacterGrid chars={ characterData }/> }></Route>
+        <Route path="/characteradder" element={ <CharacterAdder chars={ characterData }/> }></Route>
+        <Route path="/characterinfopage/:name" element={ <CharacterInfoPage chars={ characterData }/> }></Route>
+
       </Routes>
     </>
   )

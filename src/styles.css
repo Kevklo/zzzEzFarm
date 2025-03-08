@@ -8,6 +8,41 @@ h1 {
   text-align: center;
 }
 
+.anomaly {
+  color: purple;
+}
+
+.fire {
+  color: red;
+}
+
+.char-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #000000;
+  border-radius: 8px;
+}
+
+.char-info-grid div {
+  padding: 0.5rem;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.materials ul {
+  padding-left: 20px;
+}
+
+.materials li {
+  list-style-type: disc;
+}
+
+.talent_materials {
+  grid-column: span 2;
+}
+
 .card_container {
   display: flex;
   flex-direction: row;
@@ -59,6 +94,14 @@ h1 {
 
 .character_card img {
   max-width: 100%;
+  height: auto;
+  border-radius: 10px; 
+  display: block;
+  margin: 0 auto; 
+}
+
+.big_img {
+  max-width: 35vh;
   height: auto;
   border-radius: 10px; 
   display: block;
