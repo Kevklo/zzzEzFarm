@@ -34,9 +34,10 @@ export const FarmingPage = () => {
               {charInfo?.smallImg && (
                 <img src={charInfo.smallImg} alt={char.name} style={{ width: "100px", height: "100px", borderRadius: "50%" }} />
               )}
-              <p><strong>Level:</strong> {char.level}</p>
+              <p><strong>Level:</strong> {char.level}/{char.maxLevel}</p>
               <p><strong>Core Skill:</strong> {char.coreSkill}</p>
               <p><strong>Talents:</strong> {char.talents.join(", ")}</p>
+              <button className="btn btn-primary">Set Level</button>
             </div>
           );
         })}

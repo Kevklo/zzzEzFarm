@@ -1,19 +1,30 @@
 import { useNavigate } from 'react-router-dom';
 import { addCharacter } from '../../store/inventory/inventorySlice';
 import { CharacterCard } from './../../components/CharacterCard';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 export const CharacterAdder = ({chars = []}) => {  
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const { characters: selectedCharacters } = useSelector((state) => state.inventory)
 
   const handleOnClick = (char) => {
-    console.log('personaje añadido');
-    dispatch(addCharacter(char));
-    navigate('/');
+    if (!selectedCharacters.some((c) => c.name === char.name)) {
+      dispatch(addCharacter(char));
+      navigate('/');
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "That character is already on your inventory",
+      });
+      
+    }    
   }
+
+
 
   return (
     <>

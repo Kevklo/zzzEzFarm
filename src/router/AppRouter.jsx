@@ -5,11 +5,15 @@ import { CharacterAdder } from "../farm/pages/CharacterAdder";
 import { NavBar } from "../UI/NavBar";
 import { CharacterInfoPage } from "../components/CharacterInfoPage";
 import { characterData } from '../mock/characterData'  //? Temporary until API is implemented
+import { itemsData } from '../mock/itemsData'
+import { ItemsInventory } from "../farm/pages/ItemsInventory";
+import { ItemsAdder } from "../farm/pages/ItemsAdder";
 
 export const AppRouter = () => {
 
 
   //? const chars = Fetch( URL ).JSON
+  //? const items = Fetch( URL ).JSON
 
   return (
     <>
@@ -20,6 +24,8 @@ export const AppRouter = () => {
         <Route path="/charactergrid" element={ <CharacterGrid chars={ characterData }/> }></Route>
         <Route path="/characteradder" element={ <CharacterAdder chars={ characterData }/> }></Route>
         <Route path="/characterinfopage/:name" element={ <CharacterInfoPage chars={ characterData }/> }></Route>
+        <Route path="/itemsinventory" element={ <ItemsInventory items={ itemsData }/> }></Route>
+        <Route path="/itemsadder" element={ <ItemsAdder items={ itemsData }/> }></Route>
 
       </Routes>
     </>

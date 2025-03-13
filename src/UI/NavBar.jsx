@@ -15,7 +15,16 @@ export const NavBar = () => {
               <Link className="nav-link" to="/characteradder">Add Character</Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/itemsadder">Add Items</Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to="/charactergrid">Character Grid</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/">Your Characters</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/itemsinventory">Your Items</Link>
             </li>
           </ul>
         </div>
