@@ -1,21 +1,21 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { characterData } from "../../mock/characterData"; //? TEMPORARY
+import { CharacterOnInventory } from "../../components/CharacterOnInventory";
+import { useHandleLevelUp } from "../../hooks/useHandleLevelUp";
 
 export const FarmingPage = () => {
   
   const navigate = useNavigate();
   const { characters } = useSelector((state) => state.inventory);
-
-  // const { characterData } = fetch
-
+  const { handleLevelUp } = useHandleLevelUp();
 
   const handleClickAdd = () => {
-
     return navigate('/characteradder');
-    
   }
 
+  //TODO Level up Talents and Core Skills
+  
   return (
     characters.length == 0  ?
     <div>
@@ -25,20 +25,10 @@ export const FarmingPage = () => {
     </div>
     :
     <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", padding: "15px" }}>
-        {characters.map((char, index) => {
-            const charInfo = characterData[char.name]; // Buscar el personaje en CharacterData
-
+        {characters.map((char) => {
+            const charInfo = characterData[char.name];
             return (
-            <div key={index} style={{ color: 'black', border: "2px solid #007bff", borderRadius: "10px", padding: "10px", width: "250px", backgroundColor: "#f8f9fa", boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)" }}>
-              <h3>{char.name}</h3>
-              {charInfo?.smallImg && (
-                <img src={charInfo.smallImg} alt={char.name} style={{ width: "100px", height: "100px", borderRadius: "50%" }} />
-              )}
-              <p><strong>Level:</strong> {char.level}/{char.maxLevel}</p>
-              <p><strong>Core Skill:</strong> {char.coreSkill}</p>
-              <p><strong>Talents:</strong> {char.talents.join(", ")}</p>
-              <button className="btn btn-primary">Set Level</button>
-            </div>
+            CharacterOnInventory({handleLevelUp, charInfo, char})
           );
         })}
     </div>
