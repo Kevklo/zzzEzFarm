@@ -25,7 +25,7 @@ export const ItemsAdder = ({ items = {} }) => {
     Swal.fire({
       icon: "success",
       title: "Success",
-      text: `${qty} ${selectedItem} added to the inventory`,
+      text: `${qty} ${selectedItem.replace(/_/g, " ")} added to the inventory`,
     });
   };
 
@@ -43,7 +43,7 @@ export const ItemsAdder = ({ items = {} }) => {
 
       {selectedItem && (
         <div className="item_adder">
-          <p>Selected: <strong>{selectedItem}</strong></p>
+          <p>Selected: <strong>{selectedItem.replace(/_/g, " ")}</strong></p>
           <input
             type="number"
             value={amount}

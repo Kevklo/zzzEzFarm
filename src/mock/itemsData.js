@@ -5,5 +5,10 @@ export const itemsData = {
     img: "/assets/investigator_log.webp",
     itemSource: "VR Simulation",
   },
-  // Puedes agregar más personajes aquí
+  Basic_Fire_Chips: {
+    name: "Basic_Fire_Chips",
+    type: "Skills_Material",
+    img: "/assets/basic_fire_chip.webp",
+    itemSource: "VR simulation"
+  }
 };

@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-const expPerLevel = [50, 200, 450, 850, 1450, 2250, 3250, 4500, 6000, 7800, 9735, 11800, 14000, 16335, 18800, 21400, 24135, 27000, 30000,
-  34680, 39655, 44920, 50480, 56335, 62480, 68920, 75655, 82680, 90000,
-  100800, 112200, 124200, 136800, 150000, 163800, 178200, 193200, 208800, 225000,
-  242100, 260400, 279900, 300600, 322500, 345600, 369900, 395400, 422100, 450000,
-  484200, 520800, 559800, 601200, 645000, 691200, 739800, 790800, 844200, 900000 ];
+import { expPerLevel } from '../../mock/levelData';
 
 export const inventorySlice = createSlice({
     name: 'inventory',
@@ -49,6 +44,13 @@ export const inventorySlice = createSlice({
         }
       },
 
+      //*Receives a number and a name, levels up the talent in that position for the character
+      //*with that name
+      levelUpTalent: (state, action) => {
+        const { name, talent } = action.payload;
+        const character = state.characters.find(c => c.name === name);
+        character.talents[talent]++;
+      },
 
       //* Receives a name and an amount, and removes that amount of the item of that name, if the item
       //* is not on the inventory it does nothing, if the amount is more than the item amount in your inventory
@@ -64,4 +66,4 @@ export const inventorySlice = createSlice({
 
   }})
 
-export const { addCharacter, addItem, addExp, removeItems } = inventorySlice.actions;
+export const { addCharacter, addItem, addExp, removeItems, levelUpTalent } = inventorySlice.actions;

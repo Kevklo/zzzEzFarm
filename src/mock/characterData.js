@@ -1,8 +1,8 @@
 export const characterData = {
   Burnice: {
     name: "Burnice",
-    attribute: "fire",
-    type: "anomaly",
+    attribute: "Fire",
+    type: "Anomaly",
     smallImg: "/assets/burnice_small.jpg",
     bigImg: "/assets/burnice_big.webp",
     ascensionMaterials: ["Deniques", "ascenso1", "ascenso2", "ascenso3"],

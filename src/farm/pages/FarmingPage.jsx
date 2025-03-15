@@ -8,7 +8,6 @@ export const FarmingPage = () => {
   
   const navigate = useNavigate();
   const { characters } = useSelector((state) => state.inventory);
-  const { handleLevelUp } = useHandleLevelUp();
 
   const handleClickAdd = () => {
     return navigate('/characteradder');
@@ -26,9 +25,10 @@ export const FarmingPage = () => {
     :
     <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", padding: "15px" }}>
         {characters.map((char) => {
+            const { handleLevelUp, handleTalentLevelUp } = useHandleLevelUp({character: char});
             const charInfo = characterData[char.name];
             return (
-            CharacterOnInventory({handleLevelUp, charInfo, char})
+            CharacterOnInventory({handleLevelUp, handleTalentLevelUp, charInfo, char})
           );
         })}
     </div>
