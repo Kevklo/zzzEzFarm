@@ -10,5 +10,35 @@ export const itemsData = {
     type: "Skills_Material",
     img: "/assets/basic_fire_chip.webp",
     itemSource: "VR simulation"
+  },
+  Advanced_Fire_Chips: {
+    name: "Advanced_Fire_Chips",
+    type: "Skills_Material",
+    img: "/assets/basic_fire_chip.webp",
+    itemSource: "VR simulation"
+  },
+  Specialized_Fire_Chips: {
+    name: "Specialized_Fire_Chips",
+    type: "Skills_Material",
+    img: "/assets/basic_fire_chip.webp",
+    itemSource: "VR simulation"
+  },
+  Basic_Anomaly_Certification_Seal: {
+    name: "Basic_Anomaly_Certification_Seal",
+    type: "Promotion_Material",
+    img: "/assets/basic_anomaly_certification_seal.webp",
+    itemSource: "VR simulation",
+  },
+  Advanced_Anomaly_Certification_Seal: {
+    name: "Advanced_Anomaly_Certification_Seal",
+    type: "Promotion_Material",
+    img: "/assets/advanced_anomaly_certification_seal.webp",
+    itemSource: "VR simulation",
+  },
+  Controller_Certification_Seal: {
+    name: "Controller_Certification_Seal",
+    type: "Promotion_Material",
+    img: "/assets/controller_certification_seal.webp",
+    itemSource: "VR simulation",
   }
 };

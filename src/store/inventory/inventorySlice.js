@@ -13,7 +13,7 @@ export const inventorySlice = createSlice({
     reducers: {
       //* Recieves a name and adds a character with that name and default stats to the inventory
       addCharacter: (state, action ) =>  {
-        state.characters.push({name: action.payload.name, level: 1, coreSkill: 0, talents:[1, 1, 1, 1, 1], ascencion: 1, maxLevel: 20, exp: 0});
+        state.characters.push({name: action.payload.name, level: 1, coreSkill: 0, talents:[1, 1, 1, 1, 1], ascencion: 1, maxLevel: 10, exp: 0});
       },
 
       //* Receives a name and an amount, adds an item with that name and that amount to the inventory
@@ -62,8 +62,16 @@ export const inventorySlice = createSlice({
         if(state.items[name].amount <= 0){
           delete state.items[name];
         }
+      },
+      
+      //* Recieves a name and ascends the character with said name, increasing its maxLevel
+      ascendCharacter: (state, action) => {
+        const { name } = action.payload;
+        const character = state.characters.find(c => c.name === name);
+        if(character.maxLevel < 60){
+          character.maxLevel += 10;
+        }
       }
-
   }})
 
-export const { addCharacter, addItem, addExp, removeItems, levelUpTalent } = inventorySlice.actions;
+export const { addCharacter, addItem, addExp, removeItems, levelUpTalent, ascendCharacter } = inventorySlice.actions;

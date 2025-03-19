@@ -25,10 +25,10 @@ export const FarmingPage = () => {
     :
     <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", padding: "15px" }}>
         {characters.map((char) => {
-            const { handleLevelUp, handleTalentLevelUp } = useHandleLevelUp({character: char});
+            const { handleLevelUp, handleTalentLevelUp, handleAscendCharacter } = useHandleLevelUp({character: char});
             const charInfo = characterData[char.name];
             return (
-            CharacterOnInventory({handleLevelUp, handleTalentLevelUp, charInfo, char})
+            CharacterOnInventory({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, charInfo, char})
           );
         })}
     </div>

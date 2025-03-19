@@ -21,9 +21,9 @@ export const AppRouter = () => {
       <Routes>
 
         <Route path="/*" element={ <FarmingPage /> }/>
-        <Route path="/charactergrid" element={ <CharacterGrid chars={ characterData }/> }></Route>
-        <Route path="/characteradder" element={ <CharacterAdder chars={ characterData }/> }></Route>
-        <Route path="/characterinfopage/:name" element={ <CharacterInfoPage chars={ characterData }/> }></Route>
+        <Route path="/charactergrid" element={ <CharacterGrid characterData = { characterData }/> }></Route>
+        <Route path="/characteradder" element={ <CharacterAdder characterData = { characterData }/> }></Route>
+        <Route path="/characterinfopage/:name" element={ <CharacterInfoPage characterData = { characterData }/> }></Route>
         <Route path="/itemsinventory" element={ <ItemsInventory items={ itemsData }/> }></Route>
         <Route path="/itemsadder" element={ <ItemsAdder items={ itemsData }/> }></Route>
 

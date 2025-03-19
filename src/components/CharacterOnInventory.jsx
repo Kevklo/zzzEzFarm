@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { TalentsDisplay } from "./TalentsDisplay";
 
-export const CharacterOnInventory = ({handleLevelUp, handleTalentLevelUp, charInfo, char}) => {
+export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, charInfo, char}) => {
 
   const disable = useMemo(() => char.level >= char.maxLevel, [char.level, char.maxLevel]);
 
@@ -17,7 +17,9 @@ export const CharacterOnInventory = ({handleLevelUp, handleTalentLevelUp, charIn
       {/* Talents Display */}
       <p><strong>Talents:</strong></p>
       <TalentsDisplay talents={ char.talents } handleTalentLevelUp={ handleTalentLevelUp }/>
-      <button disabled={ disable } className="btn btn-primary" onClick={ () => handleLevelUp() }>Level Up</button>
+      <button disabled={ disable } className="btn btn-primary mb-2" onClick={ () => handleLevelUp() }>Level Up</button>
+      <br />
+      <button disabled={ !disable } className="btn btn-danger" onClick={ () => handleAscendCharacter() }>Ascend</button>
   </div>
   )
 }

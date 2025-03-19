@@ -4,7 +4,7 @@ import { CharacterCard } from './../../components/CharacterCard';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
-export const CharacterAdder = ({chars = []}) => {  
+export const CharacterAdder = ({characterData = []}) => {  
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const CharacterAdder = ({chars = []}) => {
     <>
       <h4>Select the character you want to add</h4>
       <div className="card_container">
-        {Object.values(chars).map( ( char ) => (
+        {Object.values(characterData).map( ( char ) => (
           <CharacterCard key={char.name} character={char} handleOnClick={ () => handleOnClick(char) } />
         ))}
       </div>

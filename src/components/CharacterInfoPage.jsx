@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-export const CharacterInfoPage = ({chars = {}}) => {
+export const CharacterInfoPage = ({ characterData = {} }) => {
   const { name } = useParams(); // Obtener el nombre del personaje desde la URL
   const [isLoading, setIsLoading] = useState(true);
   const [character, setCharacter] = useState({
@@ -9,19 +9,19 @@ export const CharacterInfoPage = ({chars = {}}) => {
     type: "",
     attribute: "",
     bigImg: "",
-    ascensionMaterials: [],
-    coreSkillMaterials: [],
-    talentMaterials: [],
+    totalMaterialsToAscend: [],
+    totalCoreSkillMaterials: [],
+    totalSkillMaterials: [],
   });
 
   useEffect(() => {
-    if (name && chars[name]) {
-      const { type, attribute, bigImg, ascensionMaterials, coreSkillMaterials, talentMaterials } = chars[name];
-      setCharacter({ name, type, attribute, bigImg, ascensionMaterials, coreSkillMaterials, talentMaterials });
+    if (name && characterData[name]) {
+      const { type, attribute, bigImg, totalMaterialsToAscend, totalCoreSkillMaterials, totalSkillMaterials } = characterData[name];
+      setCharacter({ name, type, attribute, bigImg, totalMaterialsToAscend, totalCoreSkillMaterials, totalSkillMaterials });
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      setCharacter({ name: "Not Found", type: "", attribute: "", bigImg: "", ascensionMaterials: [], coreSkillMaterials: [], talentMaterials: [] });
+      setCharacter({ name: "Not Found", type: "", attribute: "", bigImg: "", totalMaterialsToAscend: [], totalCoreSkillMaterials: [], totalSkillMaterials: [] });
     }
   }, [name]); // Dependemos de `name` para cuando cambie la URL
 
@@ -37,14 +37,14 @@ export const CharacterInfoPage = ({chars = {}}) => {
         )}
 
         <div className="char-info-grid">
-          <div className={`type ${character.type}`}>Type: {character.type}</div>
-          <div className={`attribute ${character.attribute}`}>Attribute: {character.attribute}</div>
+          <div className={`type ${character.type.toLowerCase()}`}>Type: {character.type}</div>
+          <div className={`attribute ${character.attribute.toLowerCase()}`}>Attribute: {character.attribute}</div>
 
           <div className="materials">
-            <h5>Ascension Materials</h5>
+            <h5>Promotion Materials</h5>
             <ul>
-              {character.ascensionMaterials.length > 0 ? (
-                character.ascensionMaterials.map((item, index) => (
+              {character.totalMaterialsToAscend.length > 0 ? (
+                character.totalMaterialsToAscend.map((item, index) => (
                   <li key={`asc-${index}`}>{item}</li>
                 ))
               ) : (
@@ -56,8 +56,8 @@ export const CharacterInfoPage = ({chars = {}}) => {
           <div className="materials">
             <h5>Core Skill Materials</h5>
             <ul>
-              {character.coreSkillMaterials.length > 0 ? (
-                character.coreSkillMaterials.map((item, index) => (
+              {character.totalCoreSkillMaterials.length > 0 ? (
+                character.totalCoreSkillMaterials.map((item, index) => (
                   <li key={`core-${index}`}>{item}</li>
                 ))
               ) : (
@@ -69,8 +69,8 @@ export const CharacterInfoPage = ({chars = {}}) => {
           <div className="talent_materials materials">
             <h5>Talent Level-up Materials</h5>
             <ul>
-              {character.talentMaterials.length > 0 ? (
-                character.talentMaterials.map((item, index) => (
+              {character.totalSkillMaterials?.length > 0 ? (
+                character.totalSkillMaterials.map((item, index) => (
                   <li key={`talent-${index}`}>{item}</li>
                 ))
               ) : (
