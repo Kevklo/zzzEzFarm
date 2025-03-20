@@ -19,7 +19,7 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
       <TalentsDisplay talents={ char.talents } handleTalentLevelUp={ handleTalentLevelUp }/>
       <button disabled={ disable } className="btn btn-primary mb-2" onClick={ () => handleLevelUp() }>Level Up</button>
       <br />
-      <button disabled={ !disable } className="btn btn-danger" onClick={ () => handleAscendCharacter() }>Ascend</button>
+      <button disabled={ !disable || char.maxLevel == 60 } className="btn btn-danger" onClick={ () => handleAscendCharacter() }>Ascend</button>
   </div>
   )
 }

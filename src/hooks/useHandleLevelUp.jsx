@@ -35,7 +35,6 @@ export function useHandleLevelUp({character}) {
     const { name } = character;
     const { img: SIL_img } = itemsData["Senior_Investigator_Log"];
 
-    // Comprobamos si hay suficientes "Senior Investigator Logs"
     if (SIL_count <= 0) {
       Swal.fire({
         icon: "error",
@@ -45,7 +44,6 @@ export function useHandleLevelUp({character}) {
       return;
     }
 
-    // Mostramos la ventana de confirmación con SweetAlert2
     Swal.fire({
       title: `You have ${SIL_count} Senior Investigator Logs`,
       text: "How many do you want to use?",
@@ -66,7 +64,6 @@ export function useHandleLevelUp({character}) {
           return Swal.showValidationMessage("Not enough Senior Investigator Logs!");
         }
 
-        // Actualizamos los valores al confirmar
         dispatch(addExp({ expAmount, name }));
         dispatch(removeItems({ amount, name: "Senior_Investigator_Log" }));
       },
@@ -80,8 +77,7 @@ export function useHandleLevelUp({character}) {
     const canLevelUpTalent = skillLevelTreshold.some(
       ({ maxTalentLevel, levelNeeded }) => (talentLevel < maxTalentLevel && character.level >= levelNeeded)
     );
-    const requiredLevel = skillLevelTreshold.find(({ levelNeeded }) => character.level < levelNeeded);
-    
+    const { levelNeeded } = skillLevelTreshold.find(({ levelNeeded }) => character.level < levelNeeded);
     const itemNeeded = skillMaterialsPerLevel[talentLevel - 1].item.replace("Attribute", characterData[character.name].attribute);
     
     const { img: itemImg } = itemsData[itemNeeded];
@@ -101,10 +97,20 @@ export function useHandleLevelUp({character}) {
           return Swal.showValidationMessage("You don't have enough materials to level up this talent.");
         }
         if(!canLevelUpTalent){
-          return Swal.showValidationMessage(`You need to be level ${requiredLevel.levelNeeded} to keep leveling up this talent`)
+          return Swal.showValidationMessage(`You need to be level ${levelNeeded} to keep leveling up this talent`)
         }
-        dispatch(levelUpTalent({name: character.name, talent}))
-        dispatch(removeItems({ amount: skillMaterialsPerLevel[talent].amount, name: itemNeeded }))
+        if(talentLevel < 11) {
+          dispatch(levelUpTalent({name: character.name, talent}))
+          dispatch(removeItems({ amount: skillMaterialsPerLevel[talent].amount, name: itemNeeded }))
+        } else {
+          if(items[hamster_cage_pass]?.amount > 0){
+            dispatch(levelUpTalent({name: character.name, talent}))
+            dispatch(removeItems({ amount: skillMaterialsPerLevel[talent].amount, name: itemNeeded }))
+            dispatch(removeItems({ amount: 1, name: 'Hamster_Cage_Pass'}))
+          } else {
+            return Swal.showValidationMessage('You need a Hamster Cage Pass to level up this talent')
+          }
+        }
       },
     });
   }, [dispatch, character, items]);
@@ -127,6 +133,7 @@ export function useHandleLevelUp({character}) {
     } else {
       itemNeeded = itemNeeded.replace('Type', characterData[name].type);
     }
+
     const availableAmount = items[itemNeeded]?.amount || 0;
     Swal.fire({
       title: `Ascend Character`,
@@ -144,6 +151,7 @@ export function useHandleLevelUp({character}) {
       },
     });
   }, [dispatch, character, items]);
+  //? Thanks god that was easier than talentLevelUp
 
   return { handleLevelUp, handleTalentLevelUp, handleAscendCharacter };
 };

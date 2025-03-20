@@ -13,11 +13,11 @@ export const TalentsDisplay = ( {talents, handleTalentLevelUp} ) => {
         ))}
         <div className="col-1" />
       </div>
-      <div className="row">
+      <div className="row mb-3">
         <div className="col-1"/>
           {talents.map((level, index) => (
            <div key={index} className="col-2 text-center">
-            <button onClick={() => handleTalentLevelUp(index) } className="btn">{level}</button>
+            <button disabled={level == 12} onClick={() => handleTalentLevelUp(index) } className="btn">{level}</button>
            </div> 
           ))
           }

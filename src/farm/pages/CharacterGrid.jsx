@@ -6,7 +6,6 @@ export const CharacterGrid = ({characterData = []}) => {
   const navigate = useNavigate();
 
   const handleOnClick = (name) => {
-    console.log('Navegando a la pagina de personaje');
     return navigate(`/characterinfopage/${name}`)
   }
 
