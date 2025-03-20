@@ -10,7 +10,7 @@ export const CharacterGrid = ({characterData = []}) => {
   }
 
   return (
-    <div className="card_container">
+    <div className="card-container">
       {Object.values(characterData).map( ( char ) => (
         <CharacterCard key={char.name} character={char} handleOnClick={ () => handleOnClick(char.name) } />
       ))}

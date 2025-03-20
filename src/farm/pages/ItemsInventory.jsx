@@ -20,7 +20,7 @@ export const ItemsInventory = ({items = []}) => {
         <button className="btn btn-primary" onClick={ handleClickAdd }>Add <i className="fas fa-add mr-5"></i></button>
       </div>
       :       
-      <div className="card_container">  
+      <div className="card-container">  
         {Object.values(itemsOnInventory).map( ( i ) => (
           <OwnedItemCard key={i.name} item={{...i, img: items[i.name].img}}/>
         ))}

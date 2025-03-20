@@ -33,7 +33,7 @@ export const CharacterInfoPage = ({ characterData = {} }) => {
 
       <div className="d-flex flex-row justify-content-around align-items-center position-relative">
         {character.bigImg && (
-          <img className="big_img mx-3" src={character.bigImg} alt={character.name} draggable="false" />
+          <img className="big-img mx-3" src={character.bigImg} alt={character.name} draggable="false" />
         )}
 
         <div className="char-info-grid">
@@ -66,7 +66,7 @@ export const CharacterInfoPage = ({ characterData = {} }) => {
             </ul>
           </div>
 
-          <div className="talent_materials materials">
+          <div className="talent-materials materials">
             <h5>Talent Level-up Materials</h5>
             <ul>
               {character.totalSkillMaterials?.length > 0 ? (

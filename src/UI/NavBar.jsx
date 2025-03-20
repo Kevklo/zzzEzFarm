@@ -4,7 +4,7 @@ import React from 'react'
 
 export const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-lg" style={{color: '#212121', backgroundColor: '#FEE715'}}>
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">zzzEzFarm</NavLink>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">

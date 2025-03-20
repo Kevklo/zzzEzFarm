@@ -15,26 +15,54 @@ export const CharacterAdder = ({characterData = []}) => {
     if (!selectedCharacters.some((c) => c.name === char.name)) {
       Swal.fire({
         title: "Enter character details",
+        //* Form for both current level and desired level
         html: `
-          <input id="level" type="number" class="swal2-input" placeholder="Level">
-          <input id="basic-attack" type="number" class="swal2-input" placeholder="Basic Attack Level">
-          <input id="dodge" type="number" class="swal2-input" placeholder="Dodge Level">
-          <input id="assist" type="number" class="swal2-input" placeholder="Assist Level">
-          <input id="special-attack" type="number" class="swal2-input" placeholder="Special Attack Level">
-          <input id="chain-attack" type="number" class="swal2-input" placeholder="Chain Attack Level">
-          <input id="core-skill" type="number" class="swal2-input" placeholder="Core Skill Level">
-        `,
+          <div class="d-flex flex-row justify-content-center">
+            <input id="level" type="number" class="swal2-input" placeholder="Current Level">
+            <p class="mb-auto mt-auto"> ⇒ </p>
+            <input id="desired-level" type="number" class="swal2-input" placeholder="Desired Level">
+          </div>
+          ${["basic-attack", "dodge", "assist", "special-attack", "chain-attack", "core-skill"].map((skill) => {
+            const formattedSkill = skill.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+          return `
+          <div class="d-flex flex-row justify-content-center">
+            <input id=${skill} type="number" class="swal2-input" placeholder="${formattedSkill}" />
+            <p class="mb-auto mt-auto"> ⇒ </p>
+            <input id="desired-${skill}" type="number" class="swal2-input" placeholder="Desired ${formattedSkill}"/>
+          </div>
+          `;
+          })
+          .join("")}`,
+        width: "80vw",
         showCancelButton: true,
         preConfirm: () => {
           const getValue = (id) => document.getElementById(id)?.value || "1";
-  
+          const desiredLevel = getValue("desired-level");
+
+          if(desiredLevel < 1 || desiredLevel > 60){
+            Swal.showValidationMessage("Please introduce valid desired levels")
+            return false;
+          }
+          ["basic-attack", "dodge", "assist", "special-attack", "chain-attack", "core-skill"].map((skill) => {
+            const desiredSkill = getValue(`desired-${skill}`);
+            if (desiredSkill < 1 || desiredSkill > 12) {
+              Swal.showValidationMessage("Please introduce valid desired levels for all talents");
+              return false;
+            }
+          });
+
           const characterDetails = {
             ...char,
             level: parseInt(getValue("level"), 10),
+            desiredLevel: parseInt(getValue("desired-level"), 10),
             talents: [parseInt(getValue("basic-attack"), 10), parseInt(getValue("dodge"), 10), parseInt(getValue("assist"), 10), parseInt(getValue("special-attack"), 10),
               parseInt(getValue("chain-attack"), 10)
             ],
-            coreSkill: parseInt(document.getElementById("core-skill")?.value || 0, 10)
+            coreSkill: parseInt(document.getElementById("core-skill")?.value || 0, 10),
+            desiredTalents: [parseInt(getValue("desired-basic-attack"), 10), parseInt(getValue("desired-dodge"), 10), parseInt(getValue("desired-assist"), 10), parseInt(getValue("desired-special-attack"), 10),
+              parseInt(getValue("desired-chain-attack"), 10)
+            ],
+            desiredCoreSkill: parseInt(document.getElementById("desired-core-skill")?.value || 0, 10),
           };
           if(!areTheLevelsValid(characterDetails)){
             Swal.showValidationMessage("Please introduce valid levels")
@@ -63,7 +91,7 @@ export const CharacterAdder = ({characterData = []}) => {
   return (
     <>
       <h4>Select the character you want to add</h4>
-      <div className="card_container">
+      <div className="card-container">
         {Object.values(characterData).map( ( char ) => (
           <CharacterCard key={char.name} character={char} handleOnClick={ () => handleOnClick(char) } />
         ))}

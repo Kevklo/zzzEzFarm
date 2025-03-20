@@ -32,17 +32,17 @@ export const ItemsAdder = ({ items = {} }) => {
   return (
     <>
       <h4>Select the item you want to add</h4>
-      <div className="card_container">
+      <div className="card-container">
         {Object.values(items).map((item) => (
-          <div key={item.name} className="item_card" onClick={() => setSelectedItem(item.name)}>
-            <img src={item.img} alt={item.name} className="item_image" />
+          <div key={item.name} className="item-card" onClick={() => setSelectedItem(item.name)}>
+            <img src={item.img} alt={item.name} className="item-image" />
             <p>{item.name.replace(/_/g, " ")}</p>
           </div>
         ))}
       </div>
 
       {selectedItem && (
-        <div className="item_adder">
+        <div className="item-adder">
           <p>Selected: <strong>{selectedItem.replace(/_/g, " ")}</strong></p>
           <input
             type="number"

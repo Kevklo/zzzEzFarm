@@ -13,10 +13,10 @@ export const inventorySlice = createSlice({
     reducers: {
       //* Recieves a name and adds a character with that name and default stats to the inventory
       addCharacter: (state, action ) =>  {
-        const {name, level, talents, coreSkill} = action.payload;
+        const {name, level, talents, coreSkill, desiredLevel, desiredTalents, desiredCoreSkill} = action.payload;
         const maxLevel = Math.ceil(level / 10) * 10;
         const exp = expPerLevel[level - 1];
-        state.characters.push({name, level, coreSkill, talents, maxLevel, exp});
+        state.characters.push({name, level, coreSkill, talents, maxLevel, exp, desiredLevel, desiredTalents, desiredCoreSkill});
       },
 
       //* Receives a name and an amount, adds an item with that name and that amount to the inventory
