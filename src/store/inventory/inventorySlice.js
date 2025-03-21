@@ -43,7 +43,7 @@ export const inventorySlice = createSlice({
               character.exp >= expPerLevel[character.level - 1]) {
           character.level += 1;
         } if (character.level == character.maxLevel){
-          character.exp = expPerLevel[character.level - 2];
+          character.exp = expPerLevel[character.level - 1];
         }
       },
 

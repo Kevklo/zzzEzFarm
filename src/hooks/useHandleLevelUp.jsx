@@ -24,8 +24,8 @@ export function useHandleLevelUp({character}) {
 
   useEffect(() => {
     setSILCount(items["Senior_Investigator_Log"]?.amount || 0);
-    character.level == 1 ? setNeededLogsToMaxLevel(Math.floor(expPerLevel[character.maxLevel - 2] / 3000))
-    : setNeededLogsToMaxLevel(Math.floor((expPerLevel[character.maxLevel - 2] - expPerLevel[character.level - 2]) / 3000))
+    character.level == 1 ? setNeededLogsToMaxLevel(Math.floor(expPerLevel[character.maxLevel - 1] / 3000))
+    : setNeededLogsToMaxLevel(Math.floor((expPerLevel[character.maxLevel - 1] - expPerLevel[character.level - 1]) / 3000))
 
   }, [items, character]);
 
@@ -101,11 +101,11 @@ export function useHandleLevelUp({character}) {
         }
         if(talentLevel < 11) {
           dispatch(levelUpTalent({name: character.name, talent}))
-          dispatch(removeItems({ amount: skillMaterialsPerLevel[talent].amount, name: itemNeeded }))
+          dispatch(removeItems({ amount: skillMaterialsPerLevel[talentLevel - 1].amount, name: itemNeeded }))
         } else {
           if(items[hamster_cage_pass]?.amount > 0){
             dispatch(levelUpTalent({name: character.name, talent}))
-            dispatch(removeItems({ amount: skillMaterialsPerLevel[talent].amount, name: itemNeeded }))
+            dispatch(removeItems({ amount: skillMaterialsPerLevel[talentLevel - 1].amount, name: itemNeeded }))
             dispatch(removeItems({ amount: 1, name: 'Hamster_Cage_Pass'}))
           } else {
             return Swal.showValidationMessage('You need a Hamster Cage Pass to level up this talent')

@@ -14,13 +14,13 @@ export const itemsData = {
   Advanced_Fire_Chips: {
     name: "Advanced_Fire_Chips",
     type: "Skills_Material",
-    img: "/assets/basic_fire_chip.webp",
+    img: "/assets/advanced_fire_chip.webp",
     itemSource: "VR simulation"
   },
   Specialized_Fire_Chips: {
     name: "Specialized_Fire_Chips",
     type: "Skills_Material",
-    img: "/assets/basic_fire_chip.webp",
+    img: "/assets/specialized_fire_chip.webp",
     itemSource: "VR simulation"
   },
   Basic_Anomaly_Certification_Seal: {

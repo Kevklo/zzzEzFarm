@@ -20,7 +20,7 @@ export const TalentsDisplay = ({ talents, handleTalentLevelUp, desiredTalents })
           <p className="m-0">{name}</p>
         </div>
         <div className="col-3 d-flex align-items-center justify-content-center">
-          <button type="button" className="talent-button">
+          <button onClick={() => handleTalentLevelUp(index)} type="button" className="talent-button">
             {talents[index]}
           </button>
         </div>
@@ -29,7 +29,7 @@ export const TalentsDisplay = ({ talents, handleTalentLevelUp, desiredTalents })
         </div>
         <div className="col-3 d-flex align-items-center justify-content-center">
           {desiredTalents[index] <= talents[index] ? (
-            <FaCheckSquare color="green" />
+            <FaCheckSquare color="orange" />
           ) : (
             <FaRegSquare color="orange" />
           )}

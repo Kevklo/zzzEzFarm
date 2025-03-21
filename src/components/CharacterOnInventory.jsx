@@ -23,12 +23,12 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
             <div>
               <p><strong>Level:</strong> {char.level}/{char.maxLevel}</p>
               <p><strong>Desired Level:</strong> {char.desiredLevel}</p>
-              {char.desiredLevel > char.level ? <FaRegSquare color="orange"/> : <FaCheckSquare color="green"/>}
+              {char.desiredLevel > char.level ? <FaRegSquare color="orange"/> : <FaCheckSquare color="orange"/>}
             </div>
             <div>
               <p><strong>Core Skill:</strong> {char.coreSkill}</p>
               <p><strong>Desired Core Skill:</strong> {char.desiredCoreSkill}</p>          
-              {char.desiredCoreSkill > char.coreSkill ? <FaRegSquare color="orange"/> : <FaCheckSquare color="green"/>}
+              {char.desiredCoreSkill > char.coreSkill ? <FaRegSquare color="orange"/> : <FaCheckSquare color="orange"/>}
             </div>
           </div>
     
