@@ -40,5 +40,11 @@ export const itemsData = {
     type: "Promotion_Material",
     img: "/assets/controller_certification_seal.webp",
     itemSource: "VR simulation",
+  },
+  Denny: {
+    name: "Denny",
+    type: "Money",
+    img: "/assets/denny.webp",
+    itemSource: "Everything",
   }
 };

@@ -5,9 +5,7 @@ export const characterData = {
     type: "Anomaly",
     smallImg: "/assets/burnice_small.jpg",
     bigImg: "/assets/burnice_big.webp",
-    totalMaterialsToAscend: ["Deniques", "ascenso1", "ascenso2", "ascenso3"],
-    totalCoreSkillMaterials: ["Deniques", "bossMat", "weeklyMat"],
-    totalSkillMaterials: ["Deniques", "talento1", "talento2", "talento3"],
+    coreSkillMaterials: {denny: 405000, bossMat: "Higher_Dimensional_Data:_Stealth_Phantom", weeklyMat: "Scarlet_Engine"},
   },
   // Puedes agregar más personajes aquí
 };

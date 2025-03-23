@@ -17,13 +17,14 @@ const altNameMapping = {
 };
 
 export const materialsNeeded = ({ char, items }) => {
+  let totalDenny = 0;
   const { desiredLevel, talents, desiredTalents, exp, maxLevel } = char;
   let res = [];
   
   const logsOwned = items["Senior_Investigator_Log"]?.amount || 0;
   const neededLogs = {
     name: "Senior_Investigator_Log",
-    amount: Math.max(Math.floor(((expPerLevel[desiredLevel - 1] - exp) / 3000) - logsOwned), 0),
+    amount: Math.max(Math.ceil(((expPerLevel[desiredLevel - 1] - exp) / 3000) - logsOwned), 0),
   };
   res.push(neededLogs);
 
@@ -36,6 +37,7 @@ export const materialsNeeded = ({ char, items }) => {
     for (let lvl = talentLevel; lvl < desiredTalentLevel; lvl++) {
       const material = skillMaterialsPerLevel[lvl - 1]?.item.replace("Attribute", characterData[char.name].attribute);
       const amount = skillMaterialsPerLevel[lvl - 1]?.amount;
+      totalDenny += skillMaterialsPerLevel[lvl -1 ]?.denny;
       if (material) {
         talentMaterials[material] = (talentMaterials[material] || 0) + amount;
       }
@@ -51,7 +53,6 @@ export const materialsNeeded = ({ char, items }) => {
 const formattedTalentMaterials = Object.entries(talentMaterials).map(([material, totalNeeded]) => {
   let formattedMaterial = material;
   formattedMaterial = formattedMaterial.replace("Attribute", characterData[char.name].attribute);
-
   const owned = items[formattedMaterial]?.amount || 0;
   const needed = Math.max(Math.floor(totalNeeded - owned), 0);
 
@@ -80,7 +81,7 @@ finalMaterials.forEach(({ name, amount }) => {
   const startIndex = maxLevel/10 - 1;
   const requiredPromotionMaterials = promotionData.slice(startIndex, startIndex + promotionsNeeded);
 
-  requiredPromotionMaterials.forEach(({ item, amount }) => {
+  requiredPromotionMaterials.forEach(({ item, amount, denny }) => {
     let formattedItem;
     if(item.includes("AltNameType")){
       formattedItem = item.replace("AltNameType", altNameMapping[characterData[char.name].type]);
@@ -90,6 +91,7 @@ finalMaterials.forEach(({ name, amount }) => {
     if (!neededProm[formattedItem]) {
       neededProm[formattedItem] = 0;
     }
+    totalDenny += denny;
     neededProm[formattedItem] += amount;
   });
   
@@ -111,6 +113,10 @@ finalMaterials.forEach(({ name, amount }) => {
 
     res.push({ name, amount: needed });
   });
+  
+  const ownedDenny = items['Denny']?.amount || 0;
+  totalDenny = Math.max(totalDenny - ownedDenny, 0);
+  res.push({ name: 'Denny', amount: totalDenny});
 
   return res;
 };

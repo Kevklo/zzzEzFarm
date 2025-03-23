@@ -34,7 +34,7 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
     
           {/* Talents Display */}
           <p><strong>Talents:</strong></p>
-          <TalentsDisplay talents={ char.talents } desiredTalents={ char.desiredTalents }handleTalentLevelUp={ handleTalentLevelUp }/>
+          <TalentsDisplay talents={ char.talents } desiredTalents={ char.desiredTalents } handleTalentLevelUp={ handleTalentLevelUp }/>
         </div>
         <div className="col-3">
           {/* Materials Display*/}

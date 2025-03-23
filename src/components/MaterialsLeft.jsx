@@ -16,13 +16,11 @@ export const MaterialsLeft = ({ character }) => {
   return (
     <div className="d-flex flex-wrap materials-left gap-2 mt-2">
       {formattedMaterials.map(mat => {
-        const amountOwned = items[mat.name]?.amount || 0;
-        const isLessThanNeeded = mat.amount > amountOwned;
-
+        const isLessThanNeeded = mat.amount > 0;
         return (
           <div
             key={mat.name}
-            className={`${isLessThanNeeded ? 'bg-danger' : 'bg-primary'} shadow-sm`}
+            className={`${isLessThanNeeded ? 'bg-danger' : 'bg-success'} shadow-sm`}
             style={{ width: "50px", height: "75px"}}
           >
             <img

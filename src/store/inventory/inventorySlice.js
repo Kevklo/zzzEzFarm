@@ -11,7 +11,7 @@ export const inventorySlice = createSlice({
       items: {} //name: material, amount: 1,
     },
     reducers: {
-      //* Recieves a name and adds a character with that name and default stats to the inventory
+      //* Recieves a name and stats and adds a character with that name and stats to the inventory
       addCharacter: (state, action ) =>  {
         const {name, level, talents, coreSkill, desiredLevel, desiredTalents, desiredCoreSkill} = action.payload;
         const maxLevel = Math.ceil(level / 10) * 10;
@@ -40,7 +40,7 @@ export const inventorySlice = createSlice({
         character.exp += expAmount;
 
         while (character.level < character.maxLevel &&
-              character.exp >= expPerLevel[character.level - 1]) {
+              character.exp >= expPerLevel[character.level]) {
           character.level += 1;
         } if (character.level == character.maxLevel){
           character.exp = expPerLevel[character.level - 1];

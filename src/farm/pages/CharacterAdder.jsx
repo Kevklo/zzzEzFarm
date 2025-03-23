@@ -12,7 +12,7 @@ export const CharacterAdder = ({characterData = []}) => {
   const { characters: selectedCharacters } = useSelector((state) => state.inventory)
 
   const handleOnClick = (char) => {
-    if (!selectedCharacters.some((c) => c.name === char.name)) {
+     if (!selectedCharacters.some((c) => c.name === char.name) ) {
       Swal.fire({
         title: "Enter character details",
         //* Form for both current level and desired level
