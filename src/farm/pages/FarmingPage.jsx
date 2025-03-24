@@ -12,8 +12,6 @@ export const FarmingPage = () => {
   const handleClickAdd = () => {
     return navigate('/characteradder');
   }
-
-  //TODO Level up Talents and Core Skills
   
   return (
     characters.length == 0  ?
@@ -25,10 +23,10 @@ export const FarmingPage = () => {
     :
     <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", padding: "15px" }}>
         {characters.map((char) => {
-            const { handleLevelUp, handleTalentLevelUp, handleAscendCharacter } = useHandleLevelUp({character: char});
+            const { handleLevelUp, handleTalentLevelUp, handleAscendCharacter, handleCoreSkillLevelUp} = useHandleLevelUp({character: char});
             const charInfo = characterData[char.name];
             return (
-            CharacterOnInventory({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, charInfo, char})
+            CharacterOnInventory({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, handleCoreSkillLevelUp, charInfo, char})
           );
         })}
     </div>

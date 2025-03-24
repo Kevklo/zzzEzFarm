@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
 import Swal from "sweetalert2";
-import { addExp, ascendCharacter, levelUpTalent, removeItems } from "../store/inventory/inventorySlice";
+import { addExp, ascendCharacter, levelUpCoreSkill, levelUpTalent, removeItems } from "../store/inventory/inventorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { itemsData } from "../mock/itemsData";
 import { expPerLevel } from "../mock/levelData";
@@ -8,6 +8,8 @@ import { skillMaterialsPerLevel } from "../mock/skillLevelData";
 import { characterData } from "../mock/characterData";
 import { skillLevelTreshold } from "../mock/skillTresholds";
 import { promotionData } from "../mock/promotionData";
+import { coreSkillData } from "../mock/coreSkillData";
+import { coreSkillLevelTreshold } from "../mock/coreSkillTreshold";
 
 const getPromotionLevel = (level) => {
   const promotionLevels = { 10: 0, 20: 1, 30: 2, 40: 3, 50: 4 };
@@ -150,5 +152,76 @@ export function useHandleLevelUp({ character }) {
     });
   }, [dispatch, character, items]);
 
-  return { handleLevelUp, handleTalentLevelUp, handleAscendCharacter };
+  const handleCoreSkillLevelUp = useCallback(() => {
+    const coreLevel = character.coreSkill;
+    const { name } = character;
+    const { coreSkillMaterials } = characterData[name];
+    const { bossMat, weeklyMat } = coreSkillMaterials;
+    
+    const required = coreSkillData[coreLevel];
+    
+    const { bossMat: bossMatNeeded, weeklyMat: weeklyMatNeeded, denny: dennyNeeded } = required;
+  
+    const available = {
+      bossMat: items[bossMat]?.amount || 0,
+      weeklyMat: items[weeklyMat]?.amount || 0,
+      denny: items["Denny"]?.amount || 0
+    };
+  
+    const canLevelUp = coreSkillLevelTreshold.some(
+      ({ maxCoreLevel, levelNeeded }) => coreLevel < maxCoreLevel && character.level >= levelNeeded
+    );
+  
+    const nextLevelReq = coreSkillLevelTreshold.find(({ levelNeeded }) => character.level < levelNeeded);
+    const levelNeeded = nextLevelReq?.levelNeeded;
+  
+    const bossMatImg = itemsData[bossMat]?.img;
+    const weeklyMatImg = itemsData[weeklyMat]?.img;
+    const dennyImg = itemsData["Denny"]?.img;
+  
+    Swal.fire({
+      title: `Core Skill level ${coreLevel}`,
+      html: `
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <img src="${bossMatImg}" width="80" height="80" />
+          <img src="${weeklyMatImg}" width="80" height="80" />
+          <img src="${dennyImg}" width="80" height="80" />
+        </div>
+        <br>
+        <strong>Required:</strong><br>
+        ${bossMatNeeded} ${bossMat.replace(/_/g, " ")}<br>
+        ${weeklyMatNeeded} ${weeklyMat.replace(/_/g, " ")}<br>
+        ${dennyNeeded} Denny<br><br>
+  
+        <strong>Available:</strong><br>
+        ${available.bossMat} ${bossMat.replace(/_/g, " ")}<br>
+        ${available.weeklyMat} ${weeklyMat.replace(/_/g, " ")}<br>
+        ${available.denny} Denny
+      `,
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        if (available.bossMat < bossMatNeeded) {
+          return Swal.showValidationMessage("Not enough boss materials.");
+        }
+        if (available.weeklyMat < weeklyMatNeeded) {
+          return Swal.showValidationMessage("Not enough weekly materials.");
+        }
+        if (available.denny < dennyNeeded) {
+          return Swal.showValidationMessage("Not enough Denny.");
+        }
+        if (!canLevelUp) {
+          return Swal.showValidationMessage(`You need to be at least level ${levelNeeded} to continue.`);
+        }
+  
+        dispatch(levelUpCoreSkill({ name }));
+        dispatch(removeItems({ amount: bossMatNeeded, name: bossMat }));
+        dispatch(removeItems({ amount: weeklyMatNeeded, name: weeklyMat }));
+        dispatch(removeItems({ amount: dennyNeeded, name: "Denny" }));
+      },
+    });
+  
+  }, [character, items, dispatch]);
+
+  return { handleLevelUp, handleTalentLevelUp, handleAscendCharacter, handleCoreSkillLevelUp };
 }

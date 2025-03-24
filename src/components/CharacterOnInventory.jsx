@@ -3,7 +3,7 @@ import { TalentsDisplay } from "./TalentsDisplay";
 import { FaCheckSquare, FaRegSquare } from "react-icons/fa";
 import { MaterialsLeft } from "./MaterialsLeft";
 
-export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, charInfo, char}) => {
+export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, handleCoreSkillLevelUp, charInfo, char}) => {
 
   const disable = useMemo(() => char.level >= char.maxLevel, [char.level, char.maxLevel]);
 
@@ -28,6 +28,7 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
             <div>
               <p><strong>Core Skill:</strong> {char.coreSkill}</p>
               <p><strong>Desired Core Skill:</strong> {char.desiredCoreSkill}</p>          
+              <button disabled={ char.coreSkill >= 6} className="btn btn-info" onClick={ handleCoreSkillLevelUp }>Level up</button>
               {char.desiredCoreSkill > char.coreSkill ? <FaRegSquare color="orange"/> : <FaCheckSquare color="orange"/>}
             </div>
           </div>

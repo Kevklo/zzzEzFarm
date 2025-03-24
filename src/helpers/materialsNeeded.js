@@ -4,6 +4,7 @@
 //*0 is a possible amount
 
 import { characterData } from "../mock/characterData";
+import { coreSkillData } from "../mock/coreSkillData";
 import { expPerLevel } from "../mock/levelData";
 import { skillMaterialsPerLevel } from "../mock/skillLevelData";
 import { promotionData } from './../mock/promotionData';
@@ -18,7 +19,7 @@ const altNameMapping = {
 
 export const materialsNeeded = ({ char, items }) => {
   let totalDenny = 0;
-  const { desiredLevel, talents, desiredTalents, exp, maxLevel } = char;
+  const { desiredLevel, talents, desiredTalents, exp, maxLevel, coreSkill, desiredCoreSkill } = char;
   let res = [];
   
   const logsOwned = items["Senior_Investigator_Log"]?.amount || 0;
@@ -114,6 +115,29 @@ finalMaterials.forEach(({ name, amount }) => {
     res.push({ name, amount: needed });
   });
   
+  //* Core Skill Materials Calculation:
+
+  let neededCore = {};
+  const bossMat = characterData[char.name].coreSkillMaterials.bossMat;
+  const weeklyMat = characterData[char.name].coreSkillMaterials.weeklyMat;
+  let bossAmount = 0;
+  let weeklyAmount = 0;
+  totalDenny += characterData[char.name].coreSkillMaterials.denny;
+  for(let i = coreSkill; i < desiredCoreSkill; i++){
+    weeklyAmount += coreSkillData[i].weeklyMat;
+    bossAmount += coreSkillData[i].bossMat;
+  }
+  bossAmount -= items[bossMat]?.amount || 0;
+  weeklyAmount -= items[weeklyMat]?.amount || 0;
+  bossAmount = Math.max(bossAmount, 0);
+  weeklyAmount = Math.max(weeklyAmount, 0);
+
+  neededCore[bossMat] = {name: bossMat, amount: bossAmount};
+  neededCore[weeklyMat] = {name: weeklyMat, amount: weeklyAmount};
+  Object.values(neededCore).forEach((mat) => {
+    res.push({name: mat.name, amount: mat.amount})
+  });
+
   const ownedDenny = items['Denny']?.amount || 0;
   totalDenny = Math.max(totalDenny - ownedDenny, 0);
   res.push({ name: 'Denny', amount: totalDenny});

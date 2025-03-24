@@ -46,5 +46,17 @@ export const itemsData = {
     type: "Money",
     img: "/assets/denny.webp",
     itemSource: "Everything",
+  },
+  Higher_Dimensional_Data_Stealth_Phantom: {
+    name: "Higher_Dimensional_Data_Stealth_Phantom",
+    type: "Boss_Material",
+    img: "/assets/Higher_Dimensional_Data_Stealth_Phantom.webp",
+    itemSource: "VR simulation",
+  },
+  Scarlet_Engine: {
+    name: "Scarlet_Engine",
+    type: "Weekly_Boss_Material",
+    img: "/assets/Scarlet_Engine.webp",
+    itemSource: "Weekly Boss",
   }
 };

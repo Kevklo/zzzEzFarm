@@ -54,7 +54,12 @@ export const inventorySlice = createSlice({
         const character = state.characters.find(c => c.name === name);
         character.talents[talent]++;
       },
-
+      //*Receives a name, levels up the core Skill of the character with that name by 1
+      levelUpCoreSkill: (state, action) => {
+        const { name } = action.payload;
+        const character = state.characters.find(c => c.name === name);
+        character.coreSkill++;
+      },
       //* Receives a name and an amount, and removes that amount of the item of that name, if the item
       //* is not on the inventory it does nothing, if the amount is more than the item amount in your inventory
       //* it removes the entire item
@@ -77,4 +82,4 @@ export const inventorySlice = createSlice({
       }
   }})
 
-export const { addCharacter, addItem, addExp, removeItems, levelUpTalent, ascendCharacter } = inventorySlice.actions;
+export const { addCharacter, addItem, addExp, removeItems, levelUpTalent, levelUpCoreSkill , ascendCharacter } = inventorySlice.actions;
