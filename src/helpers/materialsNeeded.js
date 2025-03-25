@@ -122,18 +122,19 @@ finalMaterials.forEach(({ name, amount }) => {
   const weeklyMat = characterData[char.name].coreSkillMaterials.weeklyMat;
   let bossAmount = 0;
   let weeklyAmount = 0;
-  totalDenny += characterData[char.name].coreSkillMaterials.denny;
   for(let i = coreSkill; i < desiredCoreSkill; i++){
     weeklyAmount += coreSkillData[i].weeklyMat;
     bossAmount += coreSkillData[i].bossMat;
+    totalDenny += coreSkillData[i].denny;
   }
+
   bossAmount -= items[bossMat]?.amount || 0;
   weeklyAmount -= items[weeklyMat]?.amount || 0;
   bossAmount = Math.max(bossAmount, 0);
   weeklyAmount = Math.max(weeklyAmount, 0);
-
   neededCore[bossMat] = {name: bossMat, amount: bossAmount};
   neededCore[weeklyMat] = {name: weeklyMat, amount: weeklyAmount};
+
   Object.values(neededCore).forEach((mat) => {
     res.push({name: mat.name, amount: mat.amount})
   });
