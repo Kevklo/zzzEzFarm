@@ -79,7 +79,13 @@ export const inventorySlice = createSlice({
         if(character.maxLevel < 60){
           character.maxLevel += 10;
         }
+      },
+
+      //* Recieves a name and deletes the character with that name
+      deleteCharacter: (state, action) => {
+        const { name } = action.payload;
+        state.characters = state.characters.filter(c => c.name != name);
       }
   }})
 
-export const { addCharacter, addItem, addExp, removeItems, levelUpTalent, levelUpCoreSkill , ascendCharacter } = inventorySlice.actions;
+export const { addCharacter, addItem, addExp, removeItems, levelUpTalent, levelUpCoreSkill , ascendCharacter, deleteCharacter } = inventorySlice.actions;

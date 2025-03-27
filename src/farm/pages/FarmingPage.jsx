@@ -1,18 +1,21 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
-import { characterData } from "../../mock/characterData"; //? TEMPORARY
-import { CharacterOnInventory } from "../../components/CharacterOnInventory";
-import { useHandleLevelUp } from "../../hooks/useHandleLevelUp";
+import { deleteCharacter } from "../../store/inventory/inventorySlice";
+import { CharacterWrapper } from "../../components/CharacterWrapper";
 
 export const FarmingPage = () => {
   
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { characters } = useSelector((state) => state.inventory);
-
+  
   const handleClickAdd = () => {
     return navigate('/characteradder');
   }
-  
+  const handleOnDelete = (name) => {
+    dispatch(deleteCharacter({name}))
+  };
+
   return (
     characters.length == 0  ?
     <div>
@@ -22,13 +25,13 @@ export const FarmingPage = () => {
     </div>
     :
     <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", padding: "15px" }}>
-        {characters.map((char) => {
-            const { handleLevelUp, handleTalentLevelUp, handleAscendCharacter, handleCoreSkillLevelUp} = useHandleLevelUp({character: char});
-            const charInfo = characterData[char.name];
-            return (
-            CharacterOnInventory({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, handleCoreSkillLevelUp, charInfo, char})
-          );
-        })}
+      {characters.map((char) => (
+        <CharacterWrapper 
+          key={char.name} 
+          char={char}
+          handleOnDelete={handleOnDelete}
+        />
+      ))}
     </div>
   )
 }

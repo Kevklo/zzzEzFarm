@@ -2,17 +2,11 @@ import { useMemo } from "react";
 import { TalentsDisplay } from "./TalentsDisplay";
 import { FaCheckSquare, FaEdit, FaRegSquare } from "react-icons/fa";
 import { MaterialsLeft } from "./MaterialsLeft";
-import { useDispatch } from "react-redux";
 import { AiOutlineDelete } from "react-icons/ai";
 
-export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, handleCoreSkillLevelUp, charInfo, char}) => {
+export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, handleCoreSkillLevelUp, charInfo, char, handleOnDelete}) => {
 
   const disable = useMemo(() => char.level >= char.maxLevel, [char.level, char.maxLevel]);
-  const dispatch = useDispatch();
-  // const handleOnDelete = () => {
-  //   dispatch(deleteChar(char.name))
-  // };
-
 
   return (
     <div key={char.name} className="character-on-inventory">
@@ -21,10 +15,10 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
       </div>
         <div className="d-flex flex-col justify-content-end align-items-center gap-3 mr-5 mb-4">
           <button className="btn btn-secondary" style={{ marginRight: '8px' }}>
-            <FaEdit /> Editar
+            <FaEdit /> Edit
           </button>
-          <button className="btn btn-danger" style={{ marginRight: '8px' }}>
-            <AiOutlineDelete /> Borrar
+          <button className="btn btn-danger" style={{ marginRight: '8px' }} onClick={() => handleOnDelete(char.name)}>
+            <AiOutlineDelete /> Delete
           </button>
         </div>
       <div className="row">

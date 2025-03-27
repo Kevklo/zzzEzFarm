@@ -1,6 +1,7 @@
+import { coreSkillLevelTreshold } from "../mock/coreSkillTreshold";
 import { skillLevelTreshold } from "../mock/skillTresholds";
 
-export const areTheLevelsValid = ({ level, desiredLevel, desiredTalents = [], talents = [], coreSkill }) => {
+export const areTheLevelsValid = ({ level, desiredLevel, desiredTalents = [], talents = [], coreSkill, desiredCoreSkill }) => {
   if (level > 60 || level < 1) return false;
 
   const getThreshold = (lvl) =>
@@ -18,6 +19,16 @@ export const areTheLevelsValid = ({ level, desiredLevel, desiredTalents = [], ta
     if (threshold && talentLevel > threshold.maxTalentLevel) {
       return false;
     }
+  }
+
+  const coreTreshold = [...coreSkillLevelTreshold].reverse().find(({ levelNeeded }) => level >= levelNeeded);
+  if(coreTreshold && coreSkill > coreTreshold.maxCoreLevel) {
+    return false;
+  }
+
+  const desiredCoreTreshold = [...coreSkillLevelTreshold].reverse().find(({ levelNeeded }) => desiredLevel >= levelNeeded);
+  if(desiredCoreTreshold && desiredCoreSkill > desiredCoreTreshold.maxCoreLevel) {
+    return false;
   }
 
   return true;
