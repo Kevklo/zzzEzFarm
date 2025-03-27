@@ -3,7 +3,7 @@ import { itemsData } from "../mock/itemsData";
 export const MaterialCard = ({ title, materials }) => {
   return (
     <div className="col-12 col-md-6 col-lg-4">
-      <div className="card h-100 shadow-sm">
+      <div className="card h-100 shadow-sm" style={{backgroundColor: "#212121", color: "white"}}>
         <div className="card-body">
           <h5 className="card-title text-center">{title}</h5>
           <ul className="list-unstyled mt-3">

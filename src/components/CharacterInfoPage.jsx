@@ -66,7 +66,6 @@ export const CharacterInfoPage = ({ characterData = {} }) => {
             </span>
           </div>
 
-          {/* Materiales en tarjetas */}
           <div className="row g-3">
             <MaterialCard title="Promotion Materials" materials={promotionMaterials} />
             <MaterialCard title="Core Skill Materials" materials={coreSkillMaterials} />

@@ -44,7 +44,7 @@ export const ItemsAdder = ({ items = {} }) => {
 
   return (
     <div className="container mt-2">
-      <h4>Select the item you want to add</h4>
+      <h4>Select the items you want to add</h4>
       <div className="item-container">
         {Object.values(items).map((item) => (
           <div key={item.name} className="item-card">

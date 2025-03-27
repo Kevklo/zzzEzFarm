@@ -1,4 +1,4 @@
-export const OwnedItemCard = ({item, handleOnClick}) => {
+export const OwnedItemCard = ({item}) => {
 
   const { name, img, amount } = item;
 

@@ -12,12 +12,13 @@ export const ItemsInventory = ({items = []}) => {
     return navigate('/itemsAdder');
     
   }
+  
 
     return (
-      itemsOnInventory.length == 0 ?
+      Object.keys(itemsOnInventory).length < 1 ?
       <div>
         <h3 className="text-center mt-3 mb-5">It seems you don't have any items yet...</h3>
-        <button className="btn btn-primary" onClick={ handleClickAdd }>Add <i className="fas fa-add mr-5"></i></button>
+        <button className="btn btn-primary" onClick={ handleClickAdd }>Add<i className="fas fa-add mr-5"></i></button>
       </div>
       :       
       <div className="item-container">  
