@@ -1,17 +1,32 @@
 import { useMemo } from "react";
 import { TalentsDisplay } from "./TalentsDisplay";
-import { FaCheckSquare, FaRegSquare } from "react-icons/fa";
+import { FaCheckSquare, FaEdit, FaRegSquare } from "react-icons/fa";
 import { MaterialsLeft } from "./MaterialsLeft";
+import { useDispatch } from "react-redux";
+import { AiOutlineDelete } from "react-icons/ai";
 
 export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, handleCoreSkillLevelUp, charInfo, char}) => {
 
   const disable = useMemo(() => char.level >= char.maxLevel, [char.level, char.maxLevel]);
+  const dispatch = useDispatch();
+  // const handleOnDelete = () => {
+  //   dispatch(deleteChar(char.name))
+  // };
+
 
   return (
     <div key={char.name} className="character-on-inventory">
       <div className={`${charInfo?.attribute.toLowerCase()}-card-header`}>
         <h3>{char.name}</h3>
       </div>
+        <div className="d-flex flex-col justify-content-end align-items-center gap-3 mr-5 mb-4">
+          <button className="btn btn-secondary" style={{ marginRight: '8px' }}>
+            <FaEdit /> Editar
+          </button>
+          <button className="btn btn-danger" style={{ marginRight: '8px' }}>
+            <AiOutlineDelete /> Borrar
+          </button>
+        </div>
       <div className="row">
         <div className="col-md-8">
           <div className="d-flex flex-col justify-content-around align-items-center gap-3 mb-3">

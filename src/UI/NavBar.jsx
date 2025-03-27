@@ -16,7 +16,7 @@ export const NavBar = () => {
             {[
               { to: "/characteradder", label: "Add Character" },
               { to: "/itemsadder", label: "Add Items" },
-              { to: "/charactergrid", label: "Character Grid" },
+              { to: "/charactergrid", label: "Character Info" },
               { to: "/", label: "Your Characters" },
               { to: "/itemsinventory", label: "Your Items" },
             ].map(({ to, label }) => (

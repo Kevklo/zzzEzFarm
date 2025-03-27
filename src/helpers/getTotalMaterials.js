@@ -24,14 +24,14 @@ export const getTotalMaterials = (name) => {
 
     const existingMat = skillMaterials.find(mat => mat.name === item);
     if (existingMat) {
-      existingMat.amount += amount;
+      existingMat.amount += amount * 6;
     } else {
       skillMaterials.push({ name: item, amount });
     }
 
     const dennyMat = skillMaterials.find(mat => mat.name === "Denny");
     if (dennyMat) {
-      dennyMat.amount += denny;
+      dennyMat.amount += denny * 6;
     }
   }
 
@@ -40,7 +40,7 @@ export const getTotalMaterials = (name) => {
       mat.name = mat.name.replace("Attribute", charData.attribute);
     }
   }
-
+  
   let promotionMaterials = [];
   promotionMaterials.push({ name: "Denny", amount: 0 });
 

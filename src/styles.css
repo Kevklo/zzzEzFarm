@@ -142,10 +142,17 @@ h1 {
   row-gap: 2rem;
 }
 
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
 .character-card {
   background-color: #ebe9e9;
   border-radius: 40px;
-  border: 0.5rem, solid, #faf1ff;
+  border: 0.5rem solid #faf1ff;
   display: flex;
   flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
@@ -153,6 +160,31 @@ h1 {
   text-align: center;
   text-decoration-line: none;
   width: 15%;
+}
+
+.item-card {
+  background-color: #212121;
+  border-radius: 40px;
+  border: 1rem solid #212121;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  min-height: 280px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.item-input {
+  background-color: rgb(18, 18, 19);
+  color: #ffffff;
+  border-radius: 20px;
+  border: none;
+  padding: 0.5rem;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .character-card:hover {
@@ -229,5 +261,8 @@ h1 {
   }
   .character-on-inventory {
     width: 100%;
+  }
+  .item-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 }
