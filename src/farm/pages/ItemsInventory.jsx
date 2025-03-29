@@ -16,12 +16,12 @@ export const ItemsInventory = ({items = []}) => {
 
     return (
       Object.keys(itemsOnInventory).length < 1 ?
-      <div>
-        <h3 className="text-center mt-3 mb-5">It seems you don't have any items yet...</h3>
-        <button className="btn btn-primary" onClick={ handleClickAdd }>Add<i className="fas fa-add mr-5"></i></button>
+      <div className="mb-3">
+        <h3 className="text-center mt-3 mb-4">It seems you don't have any items yet...</h3>
+        <button className="btn btn-success" onClick={ handleClickAdd }>Add<i className="fas fa-add mr-5"></i></button>
       </div>
       :       
-      <div className="item-container">  
+      <div className="card-container mb-4">  
         {Object.values(itemsOnInventory).map( ( i ) => (
           <OwnedItemCard key={i.name} item={{...i, img: items[i.name].img}}/>
         ))}

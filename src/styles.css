@@ -173,7 +173,9 @@ h1 {
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem;
+  margin-top: 2vh;
   min-height: 280px;
+  max-width: 18vw;
   transition: transform 0.2s ease-in-out;
 }
 

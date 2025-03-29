@@ -87,7 +87,6 @@ export const CharacterAdder = ({characterData = []}) => {
   };
 
 
-
   return (
     <>
       <h4>Select the character you want to add</h4>

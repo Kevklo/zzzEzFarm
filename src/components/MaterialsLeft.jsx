@@ -14,7 +14,7 @@ export const MaterialsLeft = ({ character }) => {
   });
 
   return (
-    <div className="d-flex flex-wrap materials-left gap-2 mt-2">
+    <div className="d-flex flex-wrap materials-left gap-2 mt-2 justify-content-center">
       {formattedMaterials.map(mat => {
         const isLessThanNeeded = mat.amount > 0;
         return (

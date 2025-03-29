@@ -18,6 +18,7 @@ export const ItemsAdder = ({ items = {} }) => {
     const addedItems = [];
 
     Object.entries(amounts).forEach(([itemName, amount]) => {
+      amount = parseInt(amount);
       if( amount > 0) {
         dispatch(addItem({name: itemName, amount}));
         addedItems.push({name: itemName, amount});
@@ -43,7 +44,7 @@ export const ItemsAdder = ({ items = {} }) => {
   }};
 
   return (
-    <div className="container mt-2">
+    <div className="container mt-2 mb-3">
       <h4>Select the items you want to add</h4>
       <div className="item-container">
         {Object.values(items).map((item) => (

@@ -19,9 +19,9 @@ export const FarmingPage = () => {
   return (
     characters.length == 0  ?
     <div>
-      <h3 className="text-center mt-3 mb-5">Welcome to zzzEzFarm, the best place to organize your ZZZ Farming</h3>
-      <h4>To get started add a character...</h4>
-      <button className="btn btn-success" onClick={handleClickAdd}>Add <i className="fas fa-add mr-5"></i></button>
+      <h3 className="text-center mt-3 mb-4">Welcome to zzzEzFarm, the best place to organize your ZZZ Farming</h3>
+      <h4 className="mb-4">To get started add a character...</h4>
+      <button className="btn btn-success" onClick={handleClickAdd}>Add <i className="fas fa-add"></i></button>
     </div>
     :
     <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", padding: "15px" }}>

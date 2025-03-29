@@ -3,8 +3,10 @@ import { CharacterOnInventory } from "./CharacterOnInventory";
 import { characterData } from "../mock/characterData";
 
 export const CharacterWrapper = ({ char, handleOnDelete }) => {
+
   const { handleLevelUp, handleTalentLevelUp, handleAscendCharacter, handleCoreSkillLevelUp } = 
-    useHandleLevelUp({ character: char });
+  useHandleLevelUp({ character: char });
+  
 
   const charInfo = characterData[char.name];
 

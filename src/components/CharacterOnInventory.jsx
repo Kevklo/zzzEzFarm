@@ -14,9 +14,6 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
         <h3>{char.name}</h3>
       </div>
         <div className="d-flex flex-col justify-content-end align-items-center gap-3 mr-5 mb-4">
-          <button className="btn btn-secondary" style={{ marginRight: '8px' }}>
-            <FaEdit /> Edit
-          </button>
           <button className="btn btn-danger" style={{ marginRight: '8px' }} onClick={() => handleOnDelete(char.name)}>
             <AiOutlineDelete /> Delete
           </button>
@@ -38,6 +35,7 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
               <p><strong>Core Skill:</strong> {char.coreSkill}</p>
               <p><strong>Desired Core Skill:</strong> {char.desiredCoreSkill}</p>          
               <button disabled={ char.coreSkill >= 6} className="btn btn-info" onClick={ handleCoreSkillLevelUp }>Level up</button>
+              <br />
               {char.desiredCoreSkill > char.coreSkill ? <FaRegSquare color="orange"/> : <FaCheckSquare color="orange"/>}
             </div>
           </div>
@@ -46,7 +44,7 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
           <p><strong>Talents:</strong></p>
           <TalentsDisplay talents={ char.talents } desiredTalents={ char.desiredTalents } handleTalentLevelUp={ handleTalentLevelUp }/>
         </div>
-        <div className="col-3">
+        <div className="col-4">
           {/* Materials Display*/}
           <p><strong>Materials left to fully upgrade:</strong></p>
           <MaterialsLeft character={ char }/>
