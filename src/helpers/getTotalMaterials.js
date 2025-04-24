@@ -1,11 +1,14 @@
-import { characterData } from "../mock/characterData";
-import { skillMaterialsPerLevel } from "../mock/skillLevelData";
-import { promotionData } from './../mock/promotionData';
-import { coreSkillData } from './../mock/coreSkillData';
+import { useSelector } from "react-redux";
+import { coreSkillData } from "../data/coreSkillData";
+import { skillMaterialsPerLevel } from "../data/skillLevelData";
+import { promotionData } from './../data/promotionData';
+
 
 export const getTotalMaterials = (name) => {
+  const {characters: characterData} = useSelector((state) => state.apiData);
+  console.log(characterData);
   if (!name) return;
-
+  
   const charData = characterData[name];
 
   const altNameMapping = {

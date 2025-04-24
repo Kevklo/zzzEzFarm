@@ -1,10 +1,10 @@
 import { addItem } from "../../store/inventory/inventorySlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { itemsData } from './../../mock/itemsData';
 
 export const ItemsAdder = ({ items = {} }) => {
+  const itemsData = useSelector((store) => store.apiData.items);
   const dispatch = useDispatch();
   const [amounts, setAmounts] = useState({});
   const handleChange = (itemName, value) => {
@@ -29,7 +29,7 @@ export const ItemsAdder = ({ items = {} }) => {
         title: "Items Added!",
         html: addedItems
         .map((item) => {
-          const img = itemsData[item.name].img;
+          const img = itemsData.find((i) => i.name === item.name).imageUrl;
           return `
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
               <span>${item.name.replace(/_/g, " ")} — ${item.amount}</span>
@@ -49,7 +49,7 @@ export const ItemsAdder = ({ items = {} }) => {
       <div className="item-container">
         {Object.values(items).map((item) => (
           <div key={item.name} className="item-card">
-            <img src={item.img} alt={item.name} className="item-image" />
+            <img src={item.imageUrl} alt={item.name} className="item-image" />
             <p>{item.name.replace(/_/g, " ")}</p>
             <input type="number" min="0" className="item-input" 
               value={amounts[item.name] || ""}

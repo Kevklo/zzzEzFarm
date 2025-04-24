@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { expPerLevel } from '../../mock/levelData';
+import { expPerLevel } from '../../data/levelData';
 
 export const inventorySlice = createSlice({
     name: 'inventory',

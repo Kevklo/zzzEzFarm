@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { TalentsDisplay } from "./TalentsDisplay";
-import { FaCheckSquare, FaEdit, FaRegSquare } from "react-icons/fa";
+import { FaCheckSquare, FaRegSquare } from "react-icons/fa";
 import { MaterialsLeft } from "./MaterialsLeft";
 import { AiOutlineDelete } from "react-icons/ai";
 
 export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, handleTalentLevelUp, handleCoreSkillLevelUp, charInfo, char, handleOnDelete}) => {
-
+  
   const disable = useMemo(() => char.level >= char.maxLevel, [char.level, char.maxLevel]);
 
   return (
@@ -21,9 +21,9 @@ export const CharacterOnInventory = ({handleLevelUp, handleAscendCharacter, hand
       <div className="row">
         <div className="col-md-8">
           <div className="d-flex flex-col justify-content-around align-items-center gap-3 mb-3">
-            {charInfo?.smallImg && (
+            {charInfo?.images.small && (
               <div className="p-2">
-                <img src={charInfo.smallImg} alt={char.name} style={{ width: "120px", height: "120px", borderRadius: "10px" }} />
+                <img src={charInfo.images.small} alt={char.name} style={{ width: "120px", height: "120px", borderRadius: "10px" }} />
               </div>
             )}
             <div>

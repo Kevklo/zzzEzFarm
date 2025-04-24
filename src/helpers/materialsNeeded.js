@@ -3,11 +3,12 @@
 //*a material left consideres the total amount needed - the amount of that material on the inventory
 //*0 is a possible amount
 
-import { characterData } from "../mock/characterData";
-import { coreSkillData } from "../mock/coreSkillData";
-import { expPerLevel } from "../mock/levelData";
-import { skillMaterialsPerLevel } from "../mock/skillLevelData";
-import { promotionData } from './../mock/promotionData';
+import { coreSkillData } from "../data/coreSkillData";
+import { expPerLevel } from "../data/levelData";
+import { skillMaterialsPerLevel } from "../data/skillLevelData";
+import { promotionData } from './../data/promotionData';
+import { useSelector } from "react-redux";
+
 
 const altNameMapping = {
   Anomaly: "Controller",
@@ -18,6 +19,9 @@ const altNameMapping = {
 };
 
 export const materialsNeeded = ({ char, items }) => {
+
+  const characterData = useSelector((store) => store.apiData.characters);
+  
   let totalDenny = 0;
   const { desiredLevel, talents, desiredTalents, exp, maxLevel, coreSkill, desiredCoreSkill } = char;
   let res = [];
@@ -78,7 +82,7 @@ finalMaterials.forEach(({ name, amount }) => {
 
   //*Prom Materials calculation 
   let neededProm = {};
-  const promotionsNeeded = Math.max(((Math.floor((desiredLevel) / 10) * 10)  - maxLevel) / 10, 0);
+  const promotionsNeeded = Math.max(((Math.ceil((desiredLevel) / 10) * 10)  - maxLevel) / 10, 0);
   const startIndex = maxLevel/10 - 1;
   const requiredPromotionMaterials = promotionData.slice(startIndex, startIndex + promotionsNeeded);
 

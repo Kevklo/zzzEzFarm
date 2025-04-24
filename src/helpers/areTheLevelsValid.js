@@ -1,5 +1,5 @@
-import { coreSkillLevelTreshold } from "../mock/coreSkillTreshold";
-import { skillLevelTreshold } from "../mock/skillTresholds";
+import { coreSkillLevelTreshold } from './../data/coreSkillTreshold';
+import { skillLevelTreshold } from "../data/skillTresholds";
 
 export const areTheLevelsValid = ({ level, desiredLevel, desiredTalents = [], talents = [], coreSkill, desiredCoreSkill }) => {
   if (level > 60 || level < 1) return false;

@@ -1,16 +1,17 @@
 import { useSelector } from "react-redux";
 import { materialsNeeded } from "../helpers/materialsNeeded";
-import { itemsData } from "../mock/itemsData";
 
 export const MaterialsLeft = ({ character }) => {
+  const itemsData = useSelector((store) => store.apiData.items);
   const { items } = useSelector(state => state.inventory);
   const materialsLeft = materialsNeeded({ char: character, items });
-
-  const formattedMaterials = materialsLeft.map((mat) => {
-    return{
-      ...mat,
-      img: itemsData[mat.name]?.img, 
-    }
+  
+    const formattedMaterials = materialsLeft.map((mat) => {
+      const foundItem = itemsData.find((item) => item.name === mat.name)
+      return{
+        ...mat,
+        img: foundItem.imageUrl, 
+      }
   });
 
   return (

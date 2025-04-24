@@ -8,11 +8,12 @@ export const ItemsInventory = ({items = []}) => {
   const { items: itemsOnInventory } = useSelector((state) => state.inventory);
 
   const handleClickAdd = () => {
-
     return navigate('/itemsAdder');
-    
   }
-  
+  const getItemImage = (itemName) => {
+    const foundItem = items.find(item => item.name === itemName);
+    return foundItem?.imageUrl || '';
+  };
 
     return (
       Object.keys(itemsOnInventory).length < 1 ?
@@ -23,7 +24,7 @@ export const ItemsInventory = ({items = []}) => {
       :       
       <div className="card-container mb-4">  
         {Object.values(itemsOnInventory).map( ( i ) => (
-          <OwnedItemCard key={i.name} item={{...i, img: items[i.name].img}}/>
+          <OwnedItemCard key={i.name} item={{...i, img: getItemImage(i.name)}}/>
         ))}
       </div>
 

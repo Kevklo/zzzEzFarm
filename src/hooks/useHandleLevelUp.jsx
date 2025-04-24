@@ -2,14 +2,12 @@ import { useEffect, useCallback, useState } from "react";
 import Swal from "sweetalert2";
 import { addExp, ascendCharacter, levelUpCoreSkill, levelUpTalent, removeItems } from "../store/inventory/inventorySlice";
 import { useDispatch, useSelector } from "react-redux";
-import { itemsData } from "../mock/itemsData";
-import { expPerLevel } from "../mock/levelData";
-import { skillMaterialsPerLevel } from "../mock/skillLevelData";
-import { characterData } from "../mock/characterData";
-import { skillLevelTreshold } from "../mock/skillTresholds";
-import { promotionData } from "../mock/promotionData";
-import { coreSkillData } from "../mock/coreSkillData";
-import { coreSkillLevelTreshold } from "../mock/coreSkillTreshold";
+import { expPerLevel } from "../data/levelData";
+import { skillMaterialsPerLevel } from "../data/skillLevelData";
+import { skillLevelTreshold } from "../data/skillTresholds";
+import { promotionData } from "../data/promotionData";
+import { coreSkillData } from "../data/coreSkillData";
+import { coreSkillLevelTreshold } from "../data/coreSkillTreshold";
 
 const getPromotionLevel = (level) => {
   const promotionLevels = { 10: 0, 20: 1, 30: 2, 40: 3, 50: 4 };
@@ -17,21 +15,30 @@ const getPromotionLevel = (level) => {
 };
 
 export function useHandleLevelUp({ character }) {
-  const dispatch = useDispatch();
+
+  const { characters: characterData, items: itemsData } = useSelector((state) => state.apiData);
   const { items } = useSelector((state) => state.inventory);
+  const dispatch = useDispatch();
+  
   const [SILCount, setSILCount] = useState(0);
   const [neededLogsToMaxLevel, setNeededLogsToMaxLevel] = useState(0);
 
   useEffect(() => {
     setSILCount(items["Senior_Investigator_Log"]?.amount || 0);
     setNeededLogsToMaxLevel(
-        Math.ceil((expPerLevel[character.maxLevel - 1] - character.exp) / 3000)
-      )
+      Math.ceil((expPerLevel[character.maxLevel - 1] - character.exp) / 3000)
+    );
   }, [items, character]);
+
+  const getItemImage = (itemName) => {
+    const item = itemsData.find(item => item.name === itemName);
+    return item?.imageUrl || '';
+  };
 
   const handleLevelUp = useCallback(() => {
     const { name } = character;
-    const { img: SIL_img } = itemsData["Senior_Investigator_Log"];
+    const SIL_img = getItemImage("Senior_Investigator_Log");
+
     if (SILCount <= 0) {
       Swal.fire({
         icon: "error",
@@ -40,6 +47,7 @@ export function useHandleLevelUp({ character }) {
       });
       return;
     }
+
     Swal.fire({
       title: `You have ${SILCount} Senior Investigator Logs`,
       text: "How many do you want to use?",
@@ -57,171 +65,208 @@ export function useHandleLevelUp({ character }) {
       preConfirm: (amount) => {
         const expAmount = amount * 3000;
         if (isNaN(expAmount) || expAmount <= 0) {
-          return Swal.showValidationMessage("Enter a valid number.");
+          Swal.showValidationMessage("Enter a valid number.");
+          return;
         }
-        if ( amount > SILCount ) {
-          return Swal.showValidationMessage("Not enough Senior Investigator Logs!");
+        if (amount > SILCount) {
+          Swal.showValidationMessage("Not enough Senior Investigator Logs!");
+          return;
         }
         dispatch(addExp({ expAmount, name }));
         dispatch(removeItems({ amount, name: "Senior_Investigator_Log" }));
       },
     });
-  }, [SILCount, character, dispatch, neededLogsToMaxLevel]);
+  }, [SILCount, character, dispatch, neededLogsToMaxLevel, getItemImage]);
 
   const handleTalentLevelUp = useCallback((talent) => {
     const talentLevel = character.talents[talent];
+    const currentCharacter = characterData[character.name];
+    
     const canLevelUpTalent = skillLevelTreshold.some(
-      ({ maxTalentLevel, levelNeeded }) => talentLevel < maxTalentLevel && character.level >= levelNeeded
+      ({ maxTalentLevel, levelNeeded }) => 
+        talentLevel < maxTalentLevel && character.level >= levelNeeded
     );
-    const levelNeededEntry = skillLevelTreshold.find(({ levelNeeded }) => character.level < levelNeeded);
-    const levelNeeded = levelNeededEntry ? levelNeededEntry.levelNeeded : null;
-    const itemNeeded = skillMaterialsPerLevel[talentLevel - 1].item.replace(
-      "Attribute",
-      characterData[character.name].attribute
+
+    const levelNeededEntry = skillLevelTreshold.find(
+      ({ levelNeeded }) => character.level < levelNeeded
     );
-    const { img: itemImg } = itemsData[itemNeeded];
+
+    const materialInfo = skillMaterialsPerLevel[talentLevel - 1];
+    const itemNeeded = materialInfo.item.replace(
+      "Attribute", 
+      currentCharacter.attribute
+    );
+
     const availableAmount = items[itemNeeded]?.amount || 0;
+    const dennyAvailable = items["Denny"]?.amount || 0;
+    const itemImg = getItemImage(itemNeeded);
+
     Swal.fire({
       title: `This talent is level ${talentLevel}`,
       html: `You have ${availableAmount} ${itemNeeded.replace(/_/g, " ")}.<br>
-             You need ${skillMaterialsPerLevel[talentLevel - 1].amount} ${itemNeeded.replace(/_/g, " ")} 
-             and ${skillMaterialsPerLevel[talentLevel - 1].denny} Denny to level up this talent.<br>
-             Do you want to continue?`,
+             You need ${materialInfo.amount} ${itemNeeded.replace(/_/g, " ")} 
+             and ${materialInfo.denny} Denny to level up this talent.`,
       showCancelButton: true,
       showLoaderOnConfirm: true,
       imageUrl: itemImg,
       imageWidth: 150,
       imageHeight: 150,
       preConfirm: () => {
-        if (availableAmount < skillMaterialsPerLevel[talentLevel - 1].amount) {
-          return Swal.showValidationMessage("You don't have enough materials to level up this talent.");
+        if (availableAmount < materialInfo.amount) {
+          Swal.showValidationMessage("Not enough materials!");
+          return;
         }
-        if (!canLevelUpTalent) {
-          return Swal.showValidationMessage(`You need to be level ${levelNeeded} to keep leveling up this talent`);
+        if (dennyAvailable < materialInfo.denny) {
+          Swal.showValidationMessage("Not enough Denny!");
+          return;
         }
-        if (talentLevel < 11) {
-          dispatch(levelUpTalent({ name: character.name, talent }));
-          dispatch(removeItems({ amount: skillMaterialsPerLevel[talentLevel - 1].amount, name: itemNeeded }));
-          dispatch(removeItems({ amount: skillMaterialsPerLevel[talentLevel - 1].denny, name: "Denny" }));
-        } else {
-          if (items["Hamster_Cage_Pass"]?.amount > 0) {
-            dispatch(levelUpTalent({ name: character.name, talent }));
-            dispatch(removeItems({ amount: skillMaterialsPerLevel[talentLevel - 1].amount, name: itemNeeded }));
-            dispatch(removeItems({ amount: skillMaterialsPerLevel[talentLevel - 1].denny, name: "Denny" }));
-            dispatch(removeItems({ amount: 1, name: "Hamster_Cage_Pass" }));
-          } else {
-            return Swal.showValidationMessage("You need a Hamster Cage Pass to level up this talent");
+        if (!canLevelUpTalent && levelNeededEntry) {
+          Swal.showValidationMessage(`Requires level ${levelNeededEntry.levelNeeded}`);
+          return;
+        }
+
+        const updates = [
+          levelUpTalent({ name: character.name, talent }),
+          removeItems({ amount: materialInfo.amount, name: itemNeeded }),
+          removeItems({ amount: materialInfo.denny, name: "Denny" })
+        ];
+
+        if (talentLevel >= 11) {
+          if (!items["Hamster_Cage_Pass"]?.amount) {
+            Swal.showValidationMessage("Hamster Cage Pass required!");
+            return;
           }
+          updates.push(removeItems({ amount: 1, name: "Hamster_Cage_Pass" }));
         }
+
+        updates.forEach(action => dispatch(action));
       },
     });
-  }, [dispatch, character, items]);
+  }, [character, items, dispatch, characterData, getItemImage]);
 
   const handleAscendCharacter = useCallback(() => {
-    const altMapping = {
+    const typeMapping = {
       Anomaly: "Controller",
       Attack: "Pioneer's",
       Defense: "Defender",
       Stun: "Buster",
       Support: "Ruler",
     };
-    const { name } = character;
+
     const promotionLevel = getPromotionLevel(character.level);
     const neededMaterials = promotionData[promotionLevel];
-    let itemNeeded = neededMaterials.item;
-    if (itemNeeded.includes("AltNameType")) {
-      itemNeeded = itemNeeded.replace("AltNameType", altMapping[characterData[name].type] || "Unknown");
-    } else {
-      itemNeeded = itemNeeded.replace("Type", characterData[name].type);
-    }
+    const dennyNeeded = neededMaterials.denny || 0;
+    
+    let itemNeeded = neededMaterials.item
+      .replace("AltNameType", typeMapping[characterData[character.name].type] || "")
+      .replace("Type", characterData[character.name].type);
+
     const availableAmount = items[itemNeeded]?.amount || 0;
+    const dennyAvailable = items["Denny"]?.amount || 0;
+    const itemImg = getItemImage(itemNeeded);
+
     Swal.fire({
       title: `Ascend Character`,
-      html: `You have ${availableAmount} ${itemNeeded}.<br>
-             You need ${neededMaterials.amount} ${itemNeeded} to ascend.<br>
-             Do you want to continue?`,
+      html: `You have ${availableAmount} ${itemNeeded.replace(/_/g, " ")}.<br>
+             You need ${neededMaterials.amount} ${itemNeeded.replace(/_/g, " ")} 
+             and ${dennyNeeded} Denny to ascend.`,
       showCancelButton: true,
       showLoaderOnConfirm: true,
+      imageUrl: itemImg,
+      imageWidth: 150,
+      imageHeight: 150,
       preConfirm: () => {
         if (availableAmount < neededMaterials.amount) {
-          return Swal.showValidationMessage("You don't have enough materials to ascend.");
+          Swal.showValidationMessage("Not enough materials!");
+          return;
         }
+        if (dennyNeeded > 0 && dennyAvailable < dennyNeeded) {
+          Swal.showValidationMessage("Not enough Denny!");
+          return;
+        }
+
         dispatch(ascendCharacter({ name: character.name }));
         dispatch(removeItems({ amount: neededMaterials.amount, name: itemNeeded }));
+        if (dennyNeeded > 0) {
+          dispatch(removeItems({ amount: dennyNeeded, name: "Denny" }));
+        }
       },
     });
-  }, [dispatch, character, items]);
+  }, [character, items, dispatch, characterData, getItemImage]);
 
   const handleCoreSkillLevelUp = useCallback(() => {
-    const coreLevel = character.coreSkill;
-    const { name } = character;
+    const { name, coreSkill: coreLevel } = character;
     const { coreSkillMaterials } = characterData[name];
     const { bossMat, weeklyMat } = coreSkillMaterials;
-    
     const required = coreSkillData[coreLevel];
-    
-    const { bossMat: bossMatNeeded, weeklyMat: weeklyMatNeeded, denny: dennyNeeded } = required;
-  
+
     const available = {
       bossMat: items[bossMat]?.amount || 0,
       weeklyMat: items[weeklyMat]?.amount || 0,
       denny: items["Denny"]?.amount || 0
     };
-  
+
     const canLevelUp = coreSkillLevelTreshold.some(
-      ({ maxCoreLevel, levelNeeded }) => coreLevel < maxCoreLevel && character.level >= levelNeeded
+      ({ maxCoreLevel, levelNeeded }) => 
+        coreLevel < maxCoreLevel && character.level >= levelNeeded
     );
-  
-    const nextLevelReq = coreSkillLevelTreshold.find(({ levelNeeded }) => character.level < levelNeeded);
-    const levelNeeded = nextLevelReq?.levelNeeded;
-  
-    const bossMatImg = itemsData[bossMat]?.img;
-    const weeklyMatImg = itemsData[weeklyMat]?.img;
-    const dennyImg = itemsData["Denny"]?.img;
-  
+
+    const levelNeeded = coreSkillLevelTreshold.find(
+      ({ levelNeeded }) => character.level < levelNeeded
+    )?.levelNeeded;
+
     Swal.fire({
       title: `Core Skill level ${coreLevel}`,
       html: `
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-          <img src="${bossMatImg}" width="80" height="80" />
-          <img src="${weeklyMatImg}" width="80" height="80" />
-          <img src="${dennyImg}" width="80" height="80" />
+        <div class="material-display">
+          <div>
+            <img src="${getItemImage(bossMat)}" width="80" height="80" />
+            <p>${available.bossMat}/${required.bossMat}</p>
+          </div>
+          <div>
+            <img src="${getItemImage(weeklyMat)}" width="80" height="80" />
+            <p>${available.weeklyMat}/${required.weeklyMat}</p>
+          </div>
+          <div>
+            <img src="${getItemImage("Denny")}" width="80" height="80" />
+            <p>${available.denny}/${required.denny}</p>
+          </div>
         </div>
-        <br>
-        <strong>Required:</strong><br>
-        ${bossMatNeeded} ${bossMat.replace(/_/g, " ")}<br>
-        ${weeklyMatNeeded} ${weeklyMat.replace(/_/g, " ")}<br>
-        ${dennyNeeded} Denny<br><br>
-  
-        <strong>Available:</strong><br>
-        ${available.bossMat} ${bossMat.replace(/_/g, " ")}<br>
-        ${available.weeklyMat} ${weeklyMat.replace(/_/g, " ")}<br>
-        ${available.denny} Denny
+        ${!canLevelUp && levelNeeded ? 
+          `<p class="warning">Requires level ${levelNeeded}</p>` : ''}
       `,
       showCancelButton: true,
       showLoaderOnConfirm: true,
       preConfirm: () => {
-        if (available.bossMat < bossMatNeeded) {
-          return Swal.showValidationMessage("Not enough boss materials.");
-        }
-        if (available.weeklyMat < weeklyMatNeeded) {
-          return Swal.showValidationMessage("Not enough weekly materials.");
-        }
-        if (available.denny < dennyNeeded) {
-          return Swal.showValidationMessage("Not enough Denny.");
-        }
         if (!canLevelUp) {
-          return Swal.showValidationMessage(`You need to be at least level ${levelNeeded} to continue.`);
+          Swal.showValidationMessage(`Requires level ${levelNeeded}`);
+          return;
         }
-  
+        if (available.bossMat < required.bossMat) {
+          Swal.showValidationMessage("Not enough boss materials");
+          return;
+        }
+        if (available.weeklyMat < required.weeklyMat) {
+          Swal.showValidationMessage("Not enough weekly materials");
+          return;
+        }
+        if (available.denny < required.denny) {
+          Swal.showValidationMessage("Not enough Denny");
+          return;
+        }
+
         dispatch(levelUpCoreSkill({ name }));
-        dispatch(removeItems({ amount: bossMatNeeded, name: bossMat }));
-        dispatch(removeItems({ amount: weeklyMatNeeded, name: weeklyMat }));
-        dispatch(removeItems({ amount: dennyNeeded, name: "Denny" }));
+        dispatch(removeItems({ amount: required.bossMat, name: bossMat }));
+        dispatch(removeItems({ amount: required.weeklyMat, name: weeklyMat }));
+        dispatch(removeItems({ amount: required.denny, name: "Denny" }));
       },
     });
-  
-  }, [character, items, dispatch]);
+  }, [character, items, dispatch, characterData, getItemImage]);
 
-  return { handleLevelUp, handleTalentLevelUp, handleAscendCharacter, handleCoreSkillLevelUp };
+  return { 
+    handleLevelUp, 
+    handleTalentLevelUp, 
+    handleAscendCharacter, 
+    handleCoreSkillLevelUp 
+  };
 }

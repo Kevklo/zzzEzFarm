@@ -16,7 +16,8 @@ export const CharacterInfoPage = ({ characterData = {} }) => {
 
   useEffect(() => {
     if (name && characterData[name]) {
-      const { type, attribute, bigImg } = characterData[name];
+      const { type, attribute, images } = characterData[name];
+      const bigImg = images.large
       setCharacter({ name, type, attribute, bigImg });
       setIsLoading(false);
     } else {
