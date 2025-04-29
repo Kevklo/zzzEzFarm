@@ -47,8 +47,14 @@ export const materialsNeeded = ({ char, items }) => {
         talentMaterials[material] = (talentMaterials[material] || 0) + amount;
       }
     }
+    if(desiredTalentLevel == 12 && talentLevel < 12){
+      talentMaterials['Hamster_Cage_Pass'] = (talentMaterials['Hamster_Cage_Pass'] || 0) + 1;
+    } 
   });
 
+  if(!talentMaterials['Hamster_Cage_Pass']){
+    talentMaterials['Hamster_Cage_Pass'] = 0;
+  }
   skillMaterialsPerLevel.forEach(({ item }) => {
     if (!talentMaterials[item]) {
       talentMaterials[item] = 0;

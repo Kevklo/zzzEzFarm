@@ -6,7 +6,6 @@ import { promotionData } from './../data/promotionData';
 
 export const getTotalMaterials = (name) => {
   const {characters: characterData} = useSelector((state) => state.apiData);
-  console.log(characterData);
   if (!name) return;
   
   const charData = characterData[name];

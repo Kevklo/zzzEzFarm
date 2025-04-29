@@ -1,11 +1,9 @@
-import { FaSpinner } from 'react-icons/fa';
-import { NavBar } from './NavBar';
-
 export const LoadingPage = () => {
   return (
-    <>
-      <NavBar/>
-      <FaSpinner className="animate-spin text-4xl text-blue-500" />
-    </>
+    <div className="d-flex justify-content-center mt-5 pt-5">
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
   );
 };

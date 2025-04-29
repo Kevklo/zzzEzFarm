@@ -20,7 +20,7 @@ export const AppRouter = () => {
     dispatch(fetchApiData());
   }, [dispatch]);
 
-  if(loading === 'pending') {
+  if(loading !== 'succeeded') {
     return <LoadingPage />
   }
 

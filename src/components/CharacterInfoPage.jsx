@@ -5,6 +5,7 @@ import { getTotalMaterials } from "../helpers/getTotalMaterials";
 import { MaterialCard } from "./MaterialCard";
 
 export const CharacterInfoPage = ({ characterData = {} }) => {
+  
   const { name } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [character, setCharacter] = useState({
@@ -15,7 +16,7 @@ export const CharacterInfoPage = ({ characterData = {} }) => {
   });
 
   useEffect(() => {
-    if (name && characterData[name]) {
+    if (characterData && characterData[name]) {
       const { type, attribute, images } = characterData[name];
       const bigImg = images.large
       setCharacter({ name, type, attribute, bigImg });
