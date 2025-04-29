@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { expPerLevel } from '../../data/levelData';
 
+const loadInitialState = () => {
+  const savedState = localStorage.getItem('inventoryState');
+  return savedState ? JSON.parse(savedState) : {
+    characters: [],
+    items: {}
+  };
+};
+
 export const inventorySlice = createSlice({
     name: 'inventory',
-    initialState: {
-      //*Characters array contains characters that have a name, level, exp, coreSkill, ascencion, maxLevel
-      //*and a talents array that keeps track of talent levels
-      characters: [], // name: Burnice, level: 1, coreSkill: 0, talents:[1, 1, 1, 1, 1]
-      //*Items object with key contains items with a name and an amount
-      items: {} //name: material, amount: 1,
-    },
+    initialState: loadInitialState(),
     reducers: {
       //* Recieves a name and stats and adds a character with that name and stats to the inventory
       addCharacter: (state, action ) =>  {
