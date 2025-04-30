@@ -33,8 +33,8 @@ export const MaterialCard = ({ title, materials }) => {
                         alt={formatName(mat.name)}
                         className="rounded"
                         style={{ 
-                          width: "32px", 
-                          height: "32px", 
+                          width: "100px", 
+                          height: "100px", 
                           objectFit: "contain" 
                         }}
                         title={formatName(mat.name)}

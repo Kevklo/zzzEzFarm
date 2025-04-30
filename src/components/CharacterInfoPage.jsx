@@ -41,7 +41,7 @@ export const CharacterInfoPage = ({ characterData = {} }) => {
   return isLoading ? (
     <div className="text-center mt-5">Loading...</div>
   ) : (
-    <section className="container mt-2 mb-4 rounded shadow">
+    <section className="container mt-2 mb-4 rounded shadow p-0">
       <h2 className={`text-center mb-4 ${character.attribute.toLowerCase()}-card-header`}>
         {character.name.toUpperCase()[0] + character.name.slice(1)}
       </h2>
@@ -61,10 +61,14 @@ export const CharacterInfoPage = ({ characterData = {} }) => {
         <div className="col-12 col-md-7">
           <div className="mb-3">
             <span className={`badge ${character.type.toLowerCase()} me-2 text-capitalize`}>
-              Type: {character.type}
+              <h2>
+                Type: {character.type}
+              </h2>
             </span>
             <span className={`badge ${character.attribute.toLowerCase()} text-capitalize`}>
-              Attribute: {character.attribute}
+              <h2>
+                Attribute: {character.attribute}
+              </h2>
             </span>
           </div>
 
