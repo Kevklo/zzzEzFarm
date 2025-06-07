@@ -7,7 +7,6 @@ A sleek tool for all your ZZZ inventory needs
 🚀 Features
 🔍 All Items in One Place
 Complete database of all in-game materials
-Automatic updates with new character releases
 
 📊 Progress Tracking
 Track character levels, talents, and core skills
@@ -40,7 +39,3 @@ npm install
 # 3. Run the development server
 npm run dev
 
-🌟 Why Use This Tool?
-"Before I was wasting hours calculating materials manually. Now I can see everything at a glance!"
-
-Happy User
