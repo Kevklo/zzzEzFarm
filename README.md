@@ -4,6 +4,8 @@
 
 A sleek tool for all your ZZZ inventory needs
 
+You can check it out here => zzzezfarm.netlify.app
+
 🚀 Features
 🔍 All Items in One Place
 Complete database of all in-game materials
