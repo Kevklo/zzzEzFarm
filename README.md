@@ -4,7 +4,7 @@
 
 A sleek tool for all your ZZZ inventory needs
 
-You can check it out here => zzzezfarm.netlify.app
+# You can check it out here ==> https://zzzezfarm.netlify.app/
 
 🚀 Features
 🔍 All Items in One Place
